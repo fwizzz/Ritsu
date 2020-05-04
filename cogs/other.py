@@ -332,7 +332,7 @@ class other(commands.Cog):
         """Displays the profile picture of a member"""
 
         embed = discord.Embed(title=f"{member.display_name}'s avatar",color = member.top_role.color)
-        embed.set_thumbnail(url=member.avatar_url)
+        embed.set_image(url=member.avatar_url)
         await ctx.send(embed=embed)
 
     @commands.command()
