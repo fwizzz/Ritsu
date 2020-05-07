@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
-
+import pandas as pd
+from cogs.embedHandler import StatusEmbed
 class other(commands.Cog):
 
     def __init__(self,bot):
@@ -213,119 +214,7 @@ class other(commands.Cog):
 
     @commands.command(aliases=["info", "stats", "Status"])
     async def status(self, ctx, *, member: discord.Member):
-
-        def get_roles(rolelist):
-            stuff = ""
-            for i in rolelist:
-                stuff += i.mention
-            return stuff
-
-        def get_activity(member):
-
-            if member.activity == None:
-                return None
-            elif member.activity.type != discord.ActivityType.custom:
-                text = f"{member.activity.type.name} {member.activity.name}"
-                return text
-
-            else:
-                return member.activity.name
-
-        def get_status(member):
-            if member.status == discord.Status.dnd:
-                return "DND 🔴"
-
-            elif member.status == discord.Status.online:
-                return "ONLINE 🟢 "
-
-            elif member.status == discord.Status.idle:
-                return "IDLE 🌙 "
-
-            elif member.status == discord.Status.offline:
-                return "OFFLINE 💀 "
-
-        async def custom_status(desc):
-            if member.is_on_mobile() and member.status != discord.Status.offline:
-                embed = discord.Embed(title=member.display_name,
-                                      description=desc, color=member.top_role.color)
-                embed.add_field(name="**DEVICE **", value="Phone: :iphone:  ", inline=False)
-                # embed.set_author(member.display_name)
-                embed.add_field(name='**STATUS**', value=get_status(member=member), inline=False)
-                embed.add_field(name="**JOINED SERVER AT**", value=f"{member.joined_at.date}", inline=False)
-                embed.add_field(name="**ACCOUNT CREATED AT**", value=f"{member.created_at.date}", inline=False)
-                embed.add_field(name="**TOP ROLE**", value=member.top_role.mention)
-                embed.add_field(name="**ACTIVITY**", value=get_activity(member=member), inline=False)
-
-                embed.set_thumbnail(url=member.avatar_url)
-
-                await ctx.send(embed=embed)
-
-            elif member.status != discord.Status.offline:
-                embed = discord.Embed(title=member.display_name,
-                                      description=desc, color=member.top_role.color)
-                embed.add_field(name='**DEVICE **', value="PC:  :desktop:  ", inline=False)
-                embed.add_field(name='**STATUS**', value=get_status(member=member), inline=False)
-                embed.add_field(name="**JOINED SERVER AT**", value=f"{str(member.joined_at)[:9]}", inline=False)
-                embed.add_field(name="**ACCOUNT CREATED AT**", value=f"{str(member.created_at)[:9]}", inline=False)
-                embed.add_field(name="**TOP ROLE**", value=member.top_role.mention, inline=False)
-                embed.add_field(name="**ACTIVITY**", value=get_activity(member=member))
-                embed.set_thumbnail(url=member.avatar_url)
-                await ctx.send(embed=embed)
-
-            elif member.status == discord.Status.offline:
-                embed = discord.Embed(title=member.display_name,
-                                      description=desc, color=member.top_role.color)
-                embed.add_field(name="**DEVICE**", value=":no_entry:  ", inline=False)
-                embed.add_field(name='**STATUS**', value=get_status(member=member), inline=False)
-                embed.add_field(name="**JOINED SERVER AT**", value=f"{member.joined_at.date}", inline=False)
-                embed.add_field(name="**ACCOUNT CREATED AT**", value=f"{member.created_at.date}", inline=False)
-                embed.add_field(name="**TOP ROLE**", value=member.top_role.mention, inline=False)
-                embed.add_field(name="**ACTIVITY**", value=get_activity(member=member), inline=False)
-                embed.set_thumbnail(url=member.avatar_url)
-                await ctx.send(embed=embed)
-
-        if member.id == 577140178791956500:
-            await custom_status(desc="waifu")
-
-        elif member.id == 247292930346319872:
-            await custom_status(desc="not telling")
-
-        elif member.is_on_mobile() and member.status != discord.Status.offline:
-            embed = discord.Embed(title=member.display_name, color=member.top_role.color)
-            embed.add_field(name="**DEVICE **", value="Phone: :iphone:  ", inline=False)
-
-            embed.add_field(name='**STATUS**', value=get_status(member=member), inline=False)
-            embed.add_field(name="**JOINED SERVER AT**", value=f"{member.joined_at.date}", inline=False)
-            embed.add_field(name="**ACCOUNT CREATED AT**", value=f"{member.created_at.date}", inline=False)
-            embed.set_thumbnail(url=member.avatar_url)
-
-            embed.add_field(name="**TOP ROLE**", value=member.top_role.mention, inline=False)
-            embed.add_field(name="**ACTIVITY**", value=get_activity(member=member), inline=False)
-            await ctx.send(embed=embed)
-
-
-        elif member.status != discord.Status.offline:
-            embed = discord.Embed(title=member.display_name, color=member.top_role.color)
-            embed.add_field(name="**DEVICE **", value="PC:  :desktop:  ", inline=False)
-
-            embed.add_field(name='**STATUS**', value=get_status(member=member), inline=False)
-            embed.add_field(name="**JOINED SERVER AT**", value=f"{member.joined_at.date}", inline=False)
-            embed.add_field(name="**ACCOUNT CREATED AT**", value=f"{member.created_at.date}", inline=False)
-            embed.add_field(name="**TOP ROLE**", value=member.top_role.mention, inline=False)
-            embed.add_field(name="**ACTIVITY**", value=get_activity(member=member), inline=False)
-            embed.set_thumbnail(url=member.avatar_url)
-            await ctx.send(embed=embed)
-
-        elif member.status == discord.Status.offline:
-            embed = discord.Embed(title=member.display_name, color=member.top_role.color)
-            embed.add_field(name="DEVICE", value=":no_entry:  ", inline=False)
-            embed.add_field(name='**STATUS**', value=get_status(member=member), inline=False)
-            embed.add_field(name="**JOINED SERVER AT**", value=f"{member.joined_at.date}", inline=False)
-            embed.add_field(name="**ACCOUNT CREATED AT**", value=f"{member.created_at.date}", inline=False)
-            embed.add_field(name="**TOP ROLE**", value=f"{member.top_role.mention}", inline=False)
-            embed.add_field(name="**ACTIVITY**", value=get_activity(member=member), inline=False)
-            embed.set_thumbnail(url=member.avatar_url)
-            await ctx.send(embed=embed)
+        await StatusEmbed(ctx,member)
 
     @commands.command()
     async def pfp(self, ctx, *, member: discord.Member):

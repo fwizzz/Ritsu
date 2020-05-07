@@ -3,21 +3,32 @@ from discord.ext import commands
 from setup import discord_bot_token
 import praw
 from setup import reddit_client_id,reddit_client_secret,reddit_username
-
+from PointSystem import add_member , pointsdf ,init_csv,add_stuff
+import pandas as pd
 bot = commands.Bot(command_prefix='n|')
-game = discord.Game(name='|help')
+game = discord.Game(name='under development')
 
 reddit_bot = praw.Reddit(client_id=reddit_client_id,
                       client_secret=reddit_client_secret,
                       user_agent='random',
                       username=reddit_username)
 
+try:
+    pd.read_csv("PointSystem.csv")
+except IOError:
+    print("File not accessible")
+    init_csv()
+    print("new file initilized")
+
+
 def SetupBot(bot):
     bot.load_extension("cogs.admins")
     bot.load_extension("cogs.fun")
     bot.remove_command("help")
     bot.load_extension("cogs.other")
+    bot.load_extension("PointSystem")
     bot.run(discord_bot_token)
+
 
 @bot.event
 async def on_ready():
@@ -82,6 +93,14 @@ async def on_message(message):
                 await msg.add_reaction("<:downvote:681135516296413238>")
             else:
                 pass
+    data = pd.read_csv("PointSystem.csv")
+    if int(message.author.id) in data["memberID"].values:
+        add_stuff(message.author,20)
+        
+    else:
+        add_member(member=message.author)
+
+
     await bot.process_commands(message)
 
 @bot.event
