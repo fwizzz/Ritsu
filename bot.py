@@ -3,18 +3,28 @@ from discord.ext import commands
 from setup import discord_bot_token
 import praw
 from setup import reddit_client_id,reddit_client_secret,reddit_username
+import pandas as pd
+from ServerXpSystem import ServerXPsystem as SXS
 
-bot = commands.Bot(command_prefix='n|')
-game = discord.Game(name='|help')
+pd.options.mode.chained_assignment = None
+
+bot = commands.Bot(command_prefix='|')
+game = discord.Game(name='development instance running')
 
 reddit_bot = praw.Reddit(client_id=reddit_client_id,
                       client_secret=reddit_client_secret,
                       user_agent='random',
                       username=reddit_username)
 
+
+
+
+
 def SetupBot(bot):
     bot.load_extension("cogs.admins")
     bot.load_extension("cogs.fun")
+    bot.load_extension("cogs.music")
+    bot.load_extension("ServerXpSystem.ServerXPcommands")
     bot.remove_command("help")
     bot.load_extension("cogs.other")
     bot.run(discord_bot_token)
@@ -48,41 +58,62 @@ async def on_guild_join(ctx):
 @bot.event
 async def on_message(message):
     server = bot.get_guild(id=581084433646616576)
-    channel = bot.get_channel(id =690919915464425492 )
+    channel = bot.get_channel(id=690919915464425492)
 
     if message.guild == None:
-        msg = discord.Embed(description=message.content,color=0x3498d)
-        msg.set_author(name = message.author.display_name,icon_url=message.author.avatar_url)
+        msg = discord.Embed(description=message.content, color=0x3498d)
+        msg.set_author(name=message.author.display_name, icon_url=message.author.avatar_url)
         await channel.send(embed=msg)
 
     if "https://www.reddit.com/" in message.content:
 
-            post = praw.models.Submission(reddit_bot, url=message.content)
-            print(message.content)
+        post = praw.models.Submission(reddit_bot, url=message.content)
+        print(message.content)
 
-            if "https://v.redd.it/" in post.url:
-                embed = discord.Embed(title= post.title,url=post.url , color = 0x3498d)
-                embed.set_footer(text=f'👍 {post.score} | 💬 {len(post.comments)}')
-                embed.set_author(name=f"{message.author.display_name}", icon_url=message.author.avatar_url)
-                msg = await channel.send(embed = embed)
-            else:
-                embed = discord.Embed(title=post.title,
-                                      # description=f':thumbsup: {post.score} \n \n :speech_balloon: {len(post.comments)} ',
-                                      url=post.url, colour=0x3498d)
-                embed.set_image(url=post.url)
-                embed.set_footer(text=f'👍 {post.score} | 💬 {len(post.comments)}')
-                embed.set_author(name=f"Post sent by {message.author.display_name}", icon_url=message.author.avatar_url)
+        if "https://v.redd.it/" in post.url:
+            embed = discord.Embed(title=post.title, url=post.url, color=0x3498d)
+            embed.set_footer(text=f'👍 {post.score} | 💬 {len(post.comments)}')
+            embed.set_author(name=f"{message.author.display_name}", icon_url=message.author.avatar_url)
+            msg = await channel.send(embed=embed)
+        else:
+            embed = discord.Embed(title=post.title,
+                                  # description=f':thumbsup: {post.score} \n \n :speech_balloon: {len(post.comments)} ',
+                                  url=post.url, colour=0x3498d)
+            embed.set_image(url=post.url)
+            embed.set_footer(text=f'👍 {post.score} | 💬 {len(post.comments)}')
+            embed.set_author(name=f"Post sent by {message.author.display_name}", icon_url=message.author.avatar_url)
 
-                channel = message.channel
-                msg = await channel.send(embed=embed)
+            channel = message.channel
+            msg = await channel.send(embed=embed)
 
+        if message.author.guild.id == 581084433646616576:
+            await msg.add_reaction("<:upvote:681135395354050593>")
+            await msg.add_reaction("<:downvote:681135516296413238>")
+        else:
+            pass
 
-            if message.author.guild.id == 581084433646616576:
-                await msg.add_reaction("<:upvote:681135395354050593>")
-                await msg.add_reaction("<:downvote:681135516296413238>")
-            else:
-                pass
+    try:
+        pd.read_csv(f"ServerXpSystem/{message.guild.name}.csv")
+        print(f"{message.guild.name}.csv  found")
+    except:
+        print(f"{message.guild.name}.csv  not found, adding...")
+        SXS.init_csv(message.guild.name)
+
+    Xpdata = pd.read_csv(f"ServerXpSystem/{message.guild.name}.csv")
+
+    if str(message.author) in Xpdata["member"].values:
+        # print(f" {message.author} found")
+        SXS.add_data(member=message.author, XP=10)
+    else:
+        # print(f"{message.author} missing , so adding")
+        SXS.add_member(member=message.author)
+
     await bot.process_commands(message)
+
+
+
+
+
 
 @bot.event
 async def on_member_join(member: discord.Member):
