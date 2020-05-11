@@ -1,9 +1,7 @@
 import discord
-from discord.ext import commands
 import pandas as pd
-data = pd.read_csv("PointSystem.csv")
-
-
+import sys
+from cogs.utils.processing import mapnum
 def get_roles(rolelist):
     stuff = ""
     for i in rolelist:
@@ -36,21 +34,54 @@ def get_status(member):
         return "OFFLINE 💀 "
 
 
-def get_member_points(member):
+def get_data(guildname):
+    data = pd.read_csv(f"ServerXpSystem/{guildname}.csv")
+    return data
+    
+
+def get_member_XP(member):
     try:
+      data = get_data(member.guild.name)
       memberRow = data[data.memberID == int(member.id)]
-      points = memberRow.points.values[0]
+      points = memberRow.XP.values[0]
       return points
     except:
         return 0
 
+def progress(count, total, status=''):
+    bar_len = 10
+    filled_len = int(round(bar_len * count / float(total)))
+
+    percents = round(100.0 * count / float(total), 1)
+    bar = '█' * filled_len + '░' * (bar_len - filled_len)
+
+    return '%s' % (bar)
+
+
 def get_level(points):
-    if points < 1000 :
-        return 1
-    if points > 1000 and points < 2000:
-        return 2
-    if points > 2000 and points < 3000:
-        return 3
+    a, b = mapnum(points,(points//1000+1) * 1000)
+
+    return f"**Level {points // 1000}** \n  {progress(count=a,total=b)} `({points}/{(points//1000+1) * 1000})`"
+
+def get_rank(member: discord.Member):
+    try:
+        data = get_data(member.guild)
+        data.sort_values(by=['XP'], inplace=True, ascending=False, ignore_index=True)
+        data.index += 1
+        rank = data[data.memberID == int(member.id)].index.values[0]
+
+
+        if rank == 1:
+            return f"{rank}/{member.guild.member_count} :crown: "
+        else:
+            return f"{rank}/{member.guild.member_count}"
+
+
+    except:
+        return "not found"
+
+
+
 
 
 
@@ -62,8 +93,8 @@ async def StatusEmbed(ctx,member,desc = None):
         # embed.set_author(member.display_name)
         embed.add_field(name='**Status**', value=get_status(member=member), inline=False)
 
-        embed.add_field(name="**Level :small_orange_diamond:**", value=f"**{get_level(get_member_points(member))}   **",inline=False)
-        embed.add_field(name="**Nezu points**", value=f"**{get_member_points(member)} :small_blue_diamond: **", inline=False)
+        embed.add_field(name="**Server Level :small_orange_diamond:**", value=f"{get_level(get_member_XP(member))} ",inline=False)
+        embed.add_field(name="**Server Rank**", value=f"**{get_rank(member)} **", inline=False)
         embed.add_field(name="**Joined Server at**", value=f"{str(member.joined_at.date)[:10]}", inline=False)
         embed.add_field(name="**Account Created at*", value=f"{str(member.created_at.date)[:10]}", inline=False)
         embed.add_field(name="**Top role**", value=member.top_role.mention,inline=False)
@@ -78,9 +109,8 @@ async def StatusEmbed(ctx,member,desc = None):
                               description=desc, color=member.top_role.color)
         embed.add_field(name='**Device **', value="PC:  :desktop:  ", inline=False)
         embed.add_field(name='**Status**', value=get_status(member=member), inline=False)
-        embed.add_field(name="**Level :small_orange_diamond:**", value=f"**{get_level(get_member_points(member))}   **",inline=False)
-        embed.add_field(name="**Nezu points**", value=f"**{get_member_points(member)} :small_blue_diamond: **",
-                        inline=False)
+        embed.add_field(name="**Server Level :small_orange_diamond:**", value=f"{get_level(get_member_XP(member))} ",inline=False)
+        embed.add_field(name="**Server Rank**", value=f"**{get_rank(member)} **", inline=False)
         embed.add_field(name="**Joined Server at**", value=f"{str(member.joined_at)[:10]}", inline=False)
         embed.add_field(name="**Account Created at**", value=f"{str(member.created_at)[:10]}", inline=False)
         embed.add_field(name="**Top Role**", value=member.top_role.mention, inline=False)
@@ -93,9 +123,8 @@ async def StatusEmbed(ctx,member,desc = None):
                               description=desc, color=member.top_role.color)
         embed.add_field(name="**Device**", value=":no_entry:  ", inline=False)
         embed.add_field(name='**Status**', value=get_status(member=member), inline=False)
-        embed.add_field(name="**Level :small_orange_diamond:**", value=f"**{get_level(get_member_points(member))}   **",inline=False)
-        embed.add_field(name="**Nezu points**", value=f"**{get_member_points(member)} :small_blue_diamond: **",
-                        inline=False)
+        embed.add_field(name="**Server Level :small_orange_diamond:**", value=f"{get_level(get_member_XP(member))} ",inline=False)
+        embed.add_field(name="**Server Rank**", value=f"**{get_rank(member)} **", inline=False)
         embed.add_field(name="**Joined Server At**", value=f"{str(member.joined_at.date)[:10]}", inline=False)
         embed.add_field(name="**Account Created at**", value=f"{str(member.created_at.date)[:10]}", inline=False)
         embed.add_field(name="**Top Role**", value=member.top_role.mention, inline=False)

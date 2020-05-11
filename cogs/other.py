@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import pandas as pd
-from cogs.EmbedHandler import StatusEmbed
+from cogs.embedHandler import StatusEmbed
 class other(commands.Cog):
 
     def __init__(self,bot):

@@ -29,12 +29,8 @@ def add_XP(row : pd.DataFrame,XP):
 def get_level(points):
     if points < 1000 :
         return 0
-    if points > 1000 and points < 2000:
-        return 1
-    if points > 2000 and points < 3000:
-        return 2
-    if points > 2000 and points < 3000:
-        return 3
+    else:
+        return points // 1000
 def add_level(row: pd.DataFrame):
     row.level = get_level(row.XP.values[0])
 

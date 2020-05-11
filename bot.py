@@ -8,7 +8,7 @@ from ServerXpSystem import ServerXPsystem as SXS
 
 pd.options.mode.chained_assignment = None
 
-bot = commands.Bot(command_prefix='|')
+bot = commands.Bot(command_prefix='n|')
 game = discord.Game(name='development instance running')
 
 reddit_bot = praw.Reddit(client_id=reddit_client_id,
