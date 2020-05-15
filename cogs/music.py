@@ -1,9 +1,9 @@
-import sys
+ort sys
 import asyncio
 import itertools
 import traceback
 from functools import partial
-
+from cogs.utils.processing import volumeBar
 import discord
 from discord.ext import commands
 from youtube_dl import YoutubeDL
@@ -27,7 +27,6 @@ ffmpeg_options = {
     'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
     'options': '-vn',
 }
-
 
 ytdl = YoutubeDL(ytdl_format_options)
 
@@ -69,8 +68,8 @@ class YTDLSource(discord.PCMVolumeTransformer):
             # take first item from a playlist
             data = data["entries"][0]
 
-        embed= discord.Embed(description=f"\nAdded **{data['title']}** to the Queue",color=discord.Color.magenta())
-        embed.set_author(name=ctx.author.display_name,icon_url=ctx.author.avatar_url)
+        embed = discord.Embed(description=f"\nAdded **{data['title']}** to the Queue", color=discord.Color.magenta())
+        embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
         await ctx.send(embed=embed)
 
         if download:
@@ -144,13 +143,11 @@ class MusicPlayer:
             source.volume = self.volume
             self.current = source
 
-
-
             self._guild.voice_client.play(source, after=lambda _: self.bot.loop.call_soon_threadsafe(self.next.set))
-            embed = discord.Embed(description=f"**Now Playing:** `{source.title}`",color=discord.Color.magenta())
+            embed = discord.Embed(description=f"**Now Playing:** `{source.title}`", color=discord.Color.magenta())
             self.np = await self._channel.send(embed=embed)
-            #self.np = await self._channel.send(f"**Now Playing:** `{source.title}` requested by "
-                                              # f"`{source.requester}`")
+            # self.np = await self._channel.send(f"**Now Playing:** `{source.title}` requested by "
+            # f"`{source.requester}`")
             await self.next.wait()
 
             # Make sure the FFmpeg process is cleaned up.
@@ -236,7 +233,7 @@ class Music(commands.Cog):
                 raise InvalidVoiceChannel("No channel to join. Please either specify a valid channel or join one.")
 
         if "music" not in channel.name.lower():
-            raise InvalidVoiceChannel("Can't join channel - channel has to have 'music' in it's name.")
+            pass  # raise InvalidVoiceChannel("Can't join channel - channel has to have 'music' in it's name.")
 
         vc = ctx.voice_client
 
@@ -253,8 +250,8 @@ class Music(commands.Cog):
             except asyncio.TimeoutError:
                 raise VoiceConnectionError(f"Connecting to channel: <{channel}> timed out.")
 
-        embed= discord.Embed(title=f"Connected to: **{channel}**",color=discord.Color.magenta())
-        embed.set_author(name=ctx.author.display_name,icon_url=ctx.author.avatar_url)
+        embed = discord.Embed(title=f"Connected to: **{channel}**", color=discord.Color.magenta())
+        embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
         await ctx.send(embed=embed)
 
     @commands.command(name="play", aliases=["sing"])
@@ -293,9 +290,9 @@ class Music(commands.Cog):
             return
 
         vc.pause()
-        embed = discord.Embed(description=":pause_button: **Paused**",color=discord.Color.magenta())
-        embed.set_author(name=ctx.author.display_name,icon_url=ctx.author.avatar_url)
-        await ctx.send(embed = embed)
+        embed = discord.Embed(description=":pause_button: **Paused**", color=discord.Color.magenta())
+        embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+        await ctx.send(embed=embed)
 
     @commands.command(name="resume")
     async def resume_(self, ctx):
@@ -312,7 +309,7 @@ class Music(commands.Cog):
         embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
         await ctx.send(embed=embed)
 
-    @commands.command(name="skip",aliases=["next"])
+    @commands.command(name="skip", aliases=["next"])
     async def skip_(self, ctx):
         """Skip the song."""
         vc = ctx.voice_client
@@ -328,7 +325,6 @@ class Music(commands.Cog):
         vc.stop()
         embed = discord.Embed(description=f":play_pause: Skipped ", color=discord.Color.magenta())
         embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
-        await ctx.send(embed=embed)
         await ctx.send(embed=embed)
 
     @commands.command(name="queue", aliases=["q", "playlist"])
@@ -347,7 +343,7 @@ class Music(commands.Cog):
         upcoming = list(itertools.islice(player.queue._queue, 0, 5))
 
         fmt = "\n".join(f"**`{_['title']}`**" for _ in upcoming)
-        embed = discord.Embed(title=f"Upcoming - Next {len(upcoming)}", description=fmt,color=discord.Color.magenta())
+        embed = discord.Embed(title=f"Upcoming - Next {len(upcoming)}", description=fmt, color=discord.Color.magenta())
 
         await ctx.send(embed=embed)
 
@@ -369,24 +365,24 @@ class Music(commands.Cog):
         except discord.HTTPException:
             pass
 
+        embed = discord.Embed(title="Now playing", description=f"{vc.source.title}", color=discord.Color.magenta())
+        embed.set_author(name=vc.source.requester.display_name, icon_url=vc.source.requester.avatar_url)
+        await ctx.send(embed=embed)
+
         player.np = await ctx.send(f"**Now Playing:** `{vc.source.title}` "
                                    f"requested by `{vc.source.requester}`")
 
     @commands.command(name="volume", aliases=["vol"])
-    async def change_volume(self, ctx, *, volume: float):
+    async def change_volume(self, ctx, *, volume=None):
         """Change the player volume.
         Parameters
         ------------
         volume: float or int [Required]
             The volume to set the player to in percentage. This must be between 1 and 100.
         """
-        if volume == None:
-            player = self.get_player(ctx)
 
-            embed = discord.Embed(description=f"Current volume **{volume*100}%**", color=discord.Color.magenta())
-            embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
-            await ctx.send(embed=embed)
-        else:
+        if volume != None:
+            volume = float(volume)
 
             vc = ctx.voice_client
 
@@ -403,14 +399,25 @@ class Music(commands.Cog):
 
             player.volume = volume / 100
 
-            embed = discord.Embed(description=f"Volume set to **{volume}%**", color=discord.Color.magenta())
+            bar = volumeBar(int(volume), 100)
+
+            embed = discord.Embed(title="Volume", description=f"{bar}`{volume} %`", color=discord.Color.magenta())
             embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
             await ctx.send(embed=embed)
 
+        else:
+            player = self.get_player(ctx)
+            vc = ctx.voice_client
 
+            volume = player.volume
 
+            bar = volumeBar(volume * 100, 100)
 
-    @commands.command(name="stop")
+            embed = discord.Embed(title="Volume", description=f"{bar}`{volume * 100} %`", color=discord.Color.magenta())
+            embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+            await ctx.send(embed=embed)
+
+    @commands.command(name="stop", aliases=["leave", "Leave"])
     async def stop_(self, ctx):
         """Stop the currently playing song and destroy the player.
         !Warning!
