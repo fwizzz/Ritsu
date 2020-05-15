@@ -33,7 +33,7 @@ class ServerXPcommands(commands.Cog):
             embed.add_field(name="Rank",value=f"**{get_rank(member)}**")
             await ctx.send(embed=embed)
         except:
-            await ctx.send("member not found")
+            pass
 
 
 
