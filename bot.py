@@ -24,8 +24,10 @@ def SetupBot(bot):
     bot.load_extension("cogs.admins")
     bot.load_extension("cogs.fun")
     bot.load_extension("cogs.music")
+    bot.load_extension("cogs.reddit")
     bot.load_extension("ServerXpSystem.ServerXPcommands")
     bot.remove_command("help")
+    bot.load_extension("cogs.help")
     bot.load_extension("cogs.other")
     bot.run(discord_bot_token)
 
@@ -71,10 +73,8 @@ async def on_message(message):
         print(message.content)
 
         if "https://v.redd.it/" in post.url:
-            embed = discord.Embed(title=post.title, url=post.url, color=0x3498d)
-            embed.set_footer(text=f'👍 {post.score} | 💬 {len(post.comments)}')
-            embed.set_author(name=f"{message.author.display_name}", icon_url=message.author.avatar_url)
-            msg = await channel.send(embed=embed)
+
+            msg = await channel.send(post.url)
         else:
             embed = discord.Embed(title=post.title,
                                   # description=f':thumbsup: {post.score} \n \n :speech_balloon: {len(post.comments)} ',
