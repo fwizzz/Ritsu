@@ -4,9 +4,11 @@ import pandas as pd
 from cogs.embedHandler import StatusEmbed
 class other(commands.Cog):
 
+    """This category involves commands that have no particular category"""
+
     def __init__(self,bot):
         self.bot = bot
-
+    @commands.command()
     async def say(self,ctx,*,message):
         await ctx.send(message)
 
@@ -46,175 +48,13 @@ class other(commands.Cog):
         embed.add_field(name="**Server Boost level**",value=get_tier(ctx.guild),inline=False)
         await ctx.send(embed=embed)
 
-    @commands.command()
-    async def help(self, ctx, arg=None):
-
-        bot = ctx.guild.get_member(577140178791956500)
-
-        if arg == "ban":
-            embed = discord.Embed(title="Ban command", description="Bans a member "
-                                                                   "\n **note**: you will require permissions to use this command",
-                                  color=bot.top_role.color)
-            embed.add_field(name="**USAGE**", value="the command is used like this "
-                                                    "\n **n.ban @member**")
-            await ctx.send(embed=embed)
-
-        elif arg == "kick":
-            embed1 = discord.Embed(title="Kick command", description="Kicks a member "
-                                                                     "\n **note**: you will require permissions to use this command",
-                                   color=bot.top_role.color)
-            embed1.add_field(name="**USAGE**", value="the command is used like this "
-                                                     "\n **n.kick @member**")
-            await ctx.send(embed=embed1)
-
-
-
-        elif arg == "clear":
-            embed3 = discord.Embed(title="Clear command", description="clears specified amount of messages "
-                                                                      '\n **note**: you will need to specify the number of messages to clear',
-                                   color=bot.top_role.color)
-            embed3.add_field(name="**USAGE**", value="the command is used like this "
-                                                     "\n **n.clear number-of-messages-here**")
-            await ctx.send(embed=embed3)
-
-
-
-
-        elif arg == "slap":
-            embed = discord.Embed(title="Slap command", description="Slaps a member "
-                                                                    '\n **note**: you will need to specify a member to Slap',
-                                  color=bot.top_role.color)
-            embed.add_field(name="**USAGE**", value="the command is used like this "
-                                                    "\n **n.slap @member**")
-            await ctx.send(embed=embed)
-
-        elif arg == "help":
-            embed = discord.Embed(title="help command", description="Help command"
-                                                                     '\n use **n.help command-name to get help on a specific command',
-                                  color=bot.top_role.color)
-            embed.add_field(name="**USAGE**", value="the command is used like this "
-                                                    "\n **n.help**"
-                                                    "\n **n.help command-name-here**")
-            await ctx.send(embed=embed)
-
-        elif arg == "dm":
-            embed = discord.Embed(title="DM command", description="DM's a member "
-                                                                  '\n **NOTE**: you will need to specify a message and a member to send it to .'
-                                                                  ,
-                                  color=bot.top_role.color)
-            embed.add_field(name="**USAGE**", value="the command is used like this "
-                                                    '\n **n.dm @member message-here **')
-            await ctx.send(embed=embed)
-
-        elif arg == "serverinfo":
-            embed = discord.Embed(title="Server info command", description="shows the info about the server"
-                                  ,
-                                  color=bot.top_role.color)
-
-            embed.add_field(name="**Aliases**",value="`serverinfo`|`serverstats`|`guildinfo`|`guildstats`",inline=False)
-            embed.add_field(name="**Usage**", value="the command is used like this "
-                                                    "\n **n.serverinfo**"
-                            )
-            await ctx.send(embed=embed)
-        elif arg == "pfp":
-            embed = discord.Embed(title="Pfp command", description="sends the pfp of a member"
-                                  ,
-                                  color=bot.top_role.color)
-            embed.add_field(name="**USAGE**", value="the command is used like this "
-                                                    "\n **n.pfp @member**"
-                            )
-            await ctx.send(embed=embed)
-
-        elif arg == "quote":
-            embed = discord.Embed(title="Quote command", description="Quotes a message"
-                                  ,
-                                  color=bot.top_role.color)
-            embed.add_field(name="**USAGE**", value="the command is used like this "
-                                                    "\n **n.quote @member message-here**"
-                            )
-            await ctx.send(embed=embed)
-
-        elif arg == "say":
-            embed = discord.Embed(title="Say command", description="says something"
-                                  ,
-                                  color=bot.top_role.color)
-            embed.add_field(name="**USAGE**", value="the command is used like this "
-                                                    '\n **n.say message-here **'
-                            )
-            await ctx.send(embed=embed)
-        elif arg == "status":
-            embed = discord.Embed(title="Status command", description="shows the staus of a  member "
-                                  ,
-                                  color=bot.top_role.color)
-            embed.add_field(name="**Aliases**", value="`stats`|`info`|`userinfo`", inline=False)
-            embed.add_field(name="**USAGE**", value="the command is used like this "
-                                                    "\n **n.status @member**"
-                            )
-
-            await ctx.send(embed=embed)
-
-        elif arg == "copypasta":
-            embed = discord.Embed(title="members command", description="sends reddit copypasta messages"
-                                  ,
-                                  color=bot.top_role.color)
-            embed.add_field(name="**USAGE**", value="the command is used like this "
-                                                    "\n **n.copypasta**"
-                            )
-            await ctx.send(embed=embed)
-
-        elif arg == "hotpost":
-            embed = discord.Embed(title="Hotpost command", description="sends a hot post from a subreddit"
-                                  ,
-                                  color=bot.top_role.color)
-            embed.add_field(name="**USAGE**", value="the command is used like this "
-                                                    "\n **n.hotpost subreddit-name-here**"
-                            )
-            await ctx.send(embed=embed)
-
-        elif arg == "newpost":
-            embed = discord.Embed(title="Newpost command", description="sends a new post from a subreddit"
-                                  ,
-                                  color=bot.top_role.color)
-            embed.add_field(name="**USAGE**", value="the command is used like this "
-                                                    "\n **n.newpost subreddit-name-here**"
-                            )
-            await ctx.send(embed=embed)
-
-        elif arg == "meme":
-            embed = discord.Embed(title="Meme command", description="sends a meme from a subreddit"
-                                  ,
-                                  color=bot.top_role.color)
-            embed.add_field(name="**USAGE**", value="the command is used like this "
-                                                    "\n **n.meme**"
-                            )
-            await ctx.send(embed=embed)
-
-
-        elif arg == None:
-
-            embed = discord.Embed(title="Bot commands", description="use **n.** before a command"
-
-                                                                    "\n for help on a specific command ,**USE**"
-
-                                                                    "\n  `n.help command-name-here`",
-
-                                  color=bot.top_role.color)
-            embed.add_field(name="**Admin commands :crown: ** ",value=" `ban` | `kick` | `clear`",inline=False)
-            embed.add_field(name="** Fun commands :speech_balloon:**",value= "`slap` | `quote`",inline=False)
-            embed.add_field(name="**Other commands  :gear:**",value= "`dm`| `serverinfo` | `pfp`| `status` | `say`",inline=False)
-            embed.add_field(name="**Reddit commands :globe_with_meridians:**",value="`copypasta` | `hotpost` | `newpost` | `meme`")
-
-            bot = ctx.guild.get_member(577140178791956500)
-            embed.set_author(name="nezuko", icon_url=bot.avatar_url)
-
-            await ctx.send(embed=embed)
+    @commands.command(aliases=["info", "stats", "Status","showprofile","profile","showinfo"])
+    async def userinfo(self, ctx, *, member : discord.Member = None):
+        if member is not None:
+            await StatusEmbed(ctx,member,bot = self.bot)
         else:
-            await ctx.send("command does not exist")
+            await StatusEmbed(ctx,ctx.author,bot=self.bot)
 
-
-    @commands.command(aliases=["info", "stats", "Status"])
-    async def status(self, ctx, *, member: discord.Member):
-        await StatusEmbed(ctx,member)
 
     @commands.command()
     async def pfp(self, ctx, *, member: discord.Member):
@@ -223,16 +63,6 @@ class other(commands.Cog):
         embed = discord.Embed(title=f"{member.display_name}'s avatar",color = member.top_role.color)
         embed.set_image(url=member.avatar_url)
         await ctx.send(embed=embed)
-
-    @commands.command()
-    async def dm(self, ctx,member: discord.Member,*,msg):
-
-        try:
-            await member.send(msg)
-            await ctx.channel.purge(limit=2)
-        except:
-            await ctx.send("something is wrong,i think the member might've blocked his dms")
-
 
 
 
