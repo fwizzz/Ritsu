@@ -12,6 +12,8 @@ reddit_bot = praw.Reddit(client_id=reddit_client_id,
                       username=reddit_username)
 
 class reddit(commands.Cog):
+
+    """This category includes Commands relating to reddit posts"""
     @commands.command()
     async def meme(self, ctx):
         subreddit = reddit_bot.subreddit('memes')
@@ -31,11 +33,21 @@ class reddit(commands.Cog):
         newposts = subreddit.new(limit=10)
         postlist = list(newposts)
         randompost = random.choice(postlist)
-        embed = discord.Embed(title=postlist.title,
-                              description=f':thumbsup: {postlist.score} \n \n :speech_balloon: {len(randompost.comments)} ',
-                              url=postlist.url, colour=0x3498d)
-        embed.set_image(url=postlist.url)
-        await ctx.send(embed=embed)
+        if "https://v.redd.it/" in randompost.url:
+            await ctx.send(randompost.title)
+            await ctx.send(randompost.url)
+        elif "https://youtube.com/" in randompost.url:
+            await ctx.send(randompost.title)
+            await ctx.send(randompost.url)
+        else:
+            embed = discord.Embed(title=randompost.title,
+                                  url=randompost.url,
+                                  colour=0x3498db)
+            embed.set_image(url=randompost.url)
+            embed.add_field(name = "<:reddit_updoot:684067800066949180> upvotes ", value=randompost.score)
+            embed.add_field(name = "💬 comments ", value=len(randompost.comments))
+
+            await ctx.send(embed=embed)
 
     @commands.command()
     async def hotpost(self, ctx, subreddit_name):
@@ -44,12 +56,23 @@ class reddit(commands.Cog):
         hotposts = subreddit.hot(limit=10)
         postlist = list(hotposts)
         randompost = random.choice(postlist)
-        embed = discord.Embed(title=randompost.title,
-                              description=f':thumbsup: {randompost.score} \n \n :speech_balloon: {len(randompost.comments)} ',
-                              url=randompost.url,
-                              colour=0x3498db)
-        embed.set_image(url=randompost.url)
-        await ctx.send(embed=embed)
+        if "https://v.redd.it/"  in randompost.url:
+            await ctx.send(randompost.title)
+            await ctx.send(randompost.url)
+        elif "https://youtube.com/" in randompost.url:
+            await ctx.send(randompost.title)
+            await ctx.send(randompost.url)
+
+        else:
+            embed = discord.Embed(title=randompost.title,
+                                  url=randompost.url,
+                                  colour=0x3498db)
+            embed.set_image(url=randompost.url)
+            embed.add_field(name = "upvotes <:reddit_updoot:684067800066949180>",value =randompost.score )
+            embed.add_field(name = "comments 💬",value=len(randompost.comments))
+
+            await ctx.send(embed=embed)
+
 
 
     @commands.command()
@@ -75,3 +98,6 @@ class reddit(commands.Cog):
                           url=post.url, colour=0x3498d)
             embed.set_image(url=post.url)
             await ctx.send(embed=embed)
+
+def setup(bot):
+    bot.add_cog(reddit(bot))
