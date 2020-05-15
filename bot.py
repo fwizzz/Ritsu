@@ -8,8 +8,8 @@ from ServerXpSystem import ServerXPsystem as SXS
 
 pd.options.mode.chained_assignment = None
 
-bot = commands.Bot(command_prefix='n|')
-game = discord.Game(name='development instance running')
+bot = commands.Bot(command_prefix='n.')
+game = discord.Game(name='n.help')
 
 reddit_bot = praw.Reddit(client_id=reddit_client_id,
                       client_secret=reddit_client_secret,
