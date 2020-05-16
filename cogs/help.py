@@ -1,6 +1,7 @@
 from discord.ext import commands
 import discord
 import asyncio
+import math
 
 
 class Help(commands.Cog, name="Help"):
