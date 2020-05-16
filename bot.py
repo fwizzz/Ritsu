@@ -8,7 +8,7 @@ from ServerXpSystem import ServerXPsystem as SXS
 
 pd.options.mode.chained_assignment = None
 
-bot = commands.Bot(command_prefix='n.')
+bot = commands.Bot(command_prefix='n|')
 game = discord.Game(name='n.help')
 
 reddit_bot = praw.Reddit(client_id=reddit_client_id,
@@ -29,6 +29,7 @@ def SetupBot(bot):
     bot.remove_command("help")
     bot.load_extension("cogs.help")
     bot.load_extension("cogs.other")
+    bot.load_extension("cogs.games")
     bot.run(discord_bot_token)
 
 @bot.event

@@ -33,21 +33,46 @@ class reddit(commands.Cog):
         newposts = subreddit.new(limit=10)
         postlist = list(newposts)
         randompost = random.choice(postlist)
-        if "https://v.redd.it/" in randompost.url:
-            await ctx.send(randompost.title)
-            await ctx.send(randompost.url)
-        elif "https://youtube.com/" in randompost.url:
-            await ctx.send(randompost.title)
-            await ctx.send(randompost.url)
-        else:
-            embed = discord.Embed(title=randompost.title,
-                                  url=randompost.url,
-                                  colour=0x3498db)
-            embed.set_image(url=randompost.url)
-            embed.add_field(name = "<:reddit_updoot:684067800066949180> upvotes ", value=randompost.score)
-            embed.add_field(name = "💬 comments ", value=len(randompost.comments))
 
-            await ctx.send(embed=embed)
+        if randompost.over_18:
+            if ctx.channel.is_nsfw():
+                if "https://v.redd.it/" in randompost.url:
+                    await ctx.send(randompost.title)
+                    await ctx.send(randompost.url)
+                elif "https://youtube.com/" in randompost.url:
+                    await ctx.send(randompost.title)
+                    await ctx.send(randompost.url)
+                else:
+                    embed = discord.Embed(title=randompost.title,
+                                          url=randompost.url,
+                                          colour=0x3498db)
+                    embed.set_image(url=randompost.url)
+                    embed.add_field(name="<:reddit_updoot:684067800066949180> upvotes ", value=randompost.score)
+                    embed.add_field(name="💬 comments ", value=len(randompost.comments))
+
+                    await ctx.send(embed=embed)
+            else:
+                await ctx.send(
+                    ":police_officer: **Stop right there** :oncoming_police_car:  , **NSFW** commands can only be used in NSFW channels")
+        else:
+            if "https://v.redd.it/" in randompost.url:
+                await ctx.send(randompost.title)
+                await ctx.send(randompost.url)
+            elif "https://youtube.com/" in randompost.url:
+                await ctx.send(randompost.title)
+                await ctx.send(randompost.url)
+            else:
+                embed = discord.Embed(title=randompost.title,
+                                      url=randompost.url,
+                                      colour=0x3498db)
+                embed.set_image(url=randompost.url)
+                embed.add_field(name="<:reddit_updoot:684067800066949180> upvotes ", value=randompost.score)
+                embed.add_field(name="💬 comments ", value=len(randompost.comments))
+
+                await ctx.send(embed=embed)
+
+
+
 
     @commands.command()
     async def hotpost(self, ctx, subreddit_name):
@@ -56,22 +81,47 @@ class reddit(commands.Cog):
         hotposts = subreddit.hot(limit=10)
         postlist = list(hotposts)
         randompost = random.choice(postlist)
-        if "https://v.redd.it/"  in randompost.url:
-            await ctx.send(randompost.title)
-            await ctx.send(randompost.url)
-        elif "https://youtube.com/" in randompost.url:
-            await ctx.send(randompost.title)
-            await ctx.send(randompost.url)
 
+        if randompost.over_18:
+            if ctx.channel.is_nsfw():
+                if "https://v.redd.it/" in randompost.url:
+                    await ctx.send(randompost.title)
+                    await ctx.send(randompost.url)
+                elif "https://youtube.com/" in randompost.url:
+                    await ctx.send(randompost.title)
+                    await ctx.send(randompost.url)
+
+                else:
+                    embed = discord.Embed(title=randompost.title,
+                                          url=randompost.url,
+                                          colour=0x3498db)
+                    embed.set_image(url=randompost.url)
+                    embed.add_field(name="upvotes <:reddit_updoot:684067800066949180>", value=randompost.score)
+                    embed.add_field(name="comments 💬", value=len(randompost.comments))
+
+                    await ctx.send(embed=embed)
+            else:
+                await ctx.send(":police_officer: **Stop right there** :oncoming_police_car:  , **NSFW** commands can only be used in NSFW channels")
         else:
-            embed = discord.Embed(title=randompost.title,
-                                  url=randompost.url,
-                                  colour=0x3498db)
-            embed.set_image(url=randompost.url)
-            embed.add_field(name = "upvotes <:reddit_updoot:684067800066949180>",value =randompost.score )
-            embed.add_field(name = "comments 💬",value=len(randompost.comments))
+            if "https://v.redd.it/" in randompost.url:
+                await ctx.send(randompost.title)
+                await ctx.send(randompost.url)
+            elif "https://youtube.com/" in randompost.url:
+                await ctx.send(randompost.title)
+                await ctx.send(randompost.url)
 
-            await ctx.send(embed=embed)
+            else:
+                embed = discord.Embed(title=randompost.title,
+                                      url=randompost.url,
+                                      colour=0x3498db)
+                embed.set_image(url=randompost.url)
+                embed.add_field(name="upvotes <:reddit_updoot:684067800066949180>", value=randompost.score)
+                embed.add_field(name="comments 💬", value=len(randompost.comments))
+
+                await ctx.send(embed=embed)
+
+
+
 
 
 

@@ -1,0 +1,10 @@
+one = (0,0)
+two = (0,1)
+three = (0,2)
+four = (1,0)
+five = (1,1)
+six  = (1,2)
+seven = (2,0)
+eight = (2,1)
+nine = (2,2)
+

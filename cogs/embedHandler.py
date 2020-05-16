@@ -1,4 +1,4 @@
-
+import discord
 import pandas as pd
 import sys
 from cogs.utils.processing import mapnum

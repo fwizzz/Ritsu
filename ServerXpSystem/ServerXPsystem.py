@@ -21,7 +21,7 @@ def add_member(member: discord.Member):
     newData = data.append(newRow, ignore_index=True)
     newData.to_csv(f"ServerXPSystem/{member.guild.name}.csv",index=False)
 
-    print(f"{member} added to {member.guild.name}")
+
 
 def add_XP(row : pd.DataFrame,XP):
     row.XP = row.XP.values[0] + XP
@@ -46,6 +46,6 @@ def add_data(member: discord.Member,XP: int):
     add_level(memberRow)
     data[data.memberID == int(member.id)] = memberRow
     data.to_csv(f"ServerXPSystem/{member.guild.name}.csv", index=False)
-    print(memberRow)
+
 
 
