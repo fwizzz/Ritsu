@@ -14,14 +14,21 @@ class other(commands.Cog):
 
     @commands.command()
     async def about(self, ctx):
-        nezukobot = ctx.guild.get_member(577140178791956500)
+        ritsu = ctx.guild.get_member(577140178791956500)
         owner = ctx.guild.get_member(247292930346319872)
-        embed = discord.Embed(description="A simple discord bot", color=nezukobot.top_role.color)
-        embed.set_author(name="nezuko", icon_url=nezukobot.avatar_url)
-        embed.add_field(name="**Code**", value="[Link](https://github.com/fwizzz/NezukoBot)")
-        embed.add_field(name="**Library**", value="discord.py")
-        embed.add_field(name="**Servers**", value=len(self.bot.guilds))
-        embed.set_footer(text=f"Created by fvviz#6032", icon_url=owner.avatar_url)
+        embed = discord.Embed(title="About Ritsu",
+                              description="**Ritsu** is a multi purpose discord bot that has Moderation commands , Fun commands , Music commands and many more!. The bot is still in dev so you can expect more commands and features.To get a list of commands , please use **rt help** ",
+                              color=0x2f3136)
+        embed.add_field(name="General information",
+                        value="**► __Bot Id__**: 577140178791956500 \n"
+                              "**► __Developer__** : **fwiz#6999** \n"
+                              "**► __Prefix__** : rt  \n"
+                              f"**► __Servers__** : {len(self.bot.guilds)}  \n")
+        embed.add_field(name="**Links**",
+                        value=f"**► [Support Server](https://discord.gg/EVN6qcG)** \n"
+                              f"**► [Github](https://github/fwizzz/nezuko)**\n"
+                              f"**► [Invite link](https://discord.com/oauth2/authorize?client_id=577140178791956500&scope=bot&permissions=521661951) \n** ")
+        embed.set_thumbnail(url=ritsu.avatar_url)
         await ctx.send(embed=embed)
 
     @commands.command()
@@ -64,7 +71,9 @@ class other(commands.Cog):
         embed.set_image(url=member.avatar_url)
         await ctx.send(embed=embed)
 
-
+    @commands.command()
+    async def Jishaku(self,ctx):
+        await ctx.send("who tf is jishaku and why does everybody keep calling him")
 
 
 

@@ -5,6 +5,7 @@ from ServerXpSystem import ServerXPsystem as SXS
 import numpy as np
 from cogs.embedHandler import get_level,get_rank
 import asyncio
+import os
 
 class leveling(commands.Cog):
     
@@ -49,7 +50,7 @@ class leveling(commands.Cog):
     async def is_owner(ctx):
         return ctx.author.id == 247292930346319872
 
-    @commands.command()
+    @commands.command(hidden = True)
     @commands.check(is_owner)
     async def remove_member(self,ctx,member:discord.Member):
             msg = await ctx.send(f"<a:loading:706195460439933000> | Removing **{member.name}**")
@@ -58,6 +59,16 @@ class leveling(commands.Cog):
             data.to_csv(f"ServerXpSystem/{ctx.guild.name}.csv",index = False)
             await asyncio.sleep(2)
             await msg.edit(content = f"<:verified:610713784268357632> | Removed **{member.name}** from the leaderboard")
+
+    @commands.command(hidden=True)
+    @commands.check(is_owner)
+    async def fuck_up_levels(self, ctx):
+        member = ctx.author
+        msg = await ctx.send(f"<a:loading:706195460439933000> | Resetting levels for **{member.guild.name}**")
+        os.remove(f"ServerXpSystem/{ctx.guild.name}.csv")
+        await asyncio.sleep(2)
+        await msg.edit(content=f"<:verified:610713784268357632> | **{member.guild.name}** levels reset")
+
 
 
 def setup(bot):
