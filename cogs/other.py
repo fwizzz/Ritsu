@@ -71,7 +71,7 @@ class other(commands.Cog):
         embed.set_image(url=member.avatar_url)
         await ctx.send(embed=embed)
 
-    @commands.command()
+    @commands.command(hidden = True)
     async def Jishaku(self,ctx):
         await ctx.send("who tf is jishaku and why does everybody keep calling him")
 
