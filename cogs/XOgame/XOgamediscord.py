@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
-from cogs.XOgame.utils import TicTacToe , deleteGame
-
+from cogs.XOgame.utils import TicTacToe , deleteGame , toEmoji
+import asyncio
 
 async def initXOgame(ctx,player1 : discord.Member,player2 : discord.Member):
     game = TicTacToe(player1.display_name,player2.display_name)
@@ -15,7 +15,7 @@ async def Terminate(ctx):
 async def StartGame(ctx,bot,player1 : discord.Member,player2 : discord.Member):
     game = TicTacToe(player1.display_name, player2.display_name,o = "<:circle:711135987606093905>")
     await ctx.send(f"{game.show_grid()}")
-
+    taken_list = []
 
 
     while True:
@@ -24,36 +24,47 @@ async def StartGame(ctx,bot,player1 : discord.Member,player2 : discord.Member):
                 await ctx.send(f"{player1.mention} please enter the number of the box you want to fill `(1,2,3...9)`")
 
                 def check(m):
-                    return m.content in '123456789'  and m.author == player1
+                    return m.content in game.empty_boxes()  and m.author == player1
 
                 msg = await bot.wait_for('message', check=check,timeout=20)
-                game.fill_x(int(msg.content))
-                await ctx.send(f"{game.show_grid()}")
+                try:
+                    game.fill_x(int(msg.content))
+                    taken_list.append(int(msg.content))
+                    await ctx.send(f"{game.show_grid()}")
+                except Exception:
+                    pass
 
             else:
                 await ctx.send("its a draw :crossed_swords: ")
                 break
         elif game.is_won():
-            await ctx.send(f"**{player1.mention}** has won!")
+            await ctx.send(f"**{player2.mention}** has won!")
             break
 
         if not game.is_won():
             if not game.ended():
+
                 await ctx.send(f"{player2.mention} please enter the number of the box you want to fill `(1,2,3...9)`")
 
                 def check(m):
-                    return m.content in '123456789' and m.author == player2
+                    return m.content in game.empty_boxes() and m.author == player2
 
                 msg = await bot.wait_for('message', check=check,timeout=20)
-                game.fill_o(int(msg.content))
-                await ctx.send(f"{game.show_grid()}")
+
+                try:
+                  game.fill_o(int(msg.content))
+                  await ctx.send(f"{game.show_grid()}")
+                except Exception:
+                    pass
 
             else:
                 await ctx.send("its a draw :crossed_swords: ")
                 break
         elif game.is_won():
-            await ctx.send(f"**{player2.mention}** Has won !")
+            await ctx.send(f"**{player1.mention}** Has won !")
             break
+
+
 
 
 

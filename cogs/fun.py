@@ -9,6 +9,8 @@ from io import StringIO
 
 class fun(commands.Cog):
 
+    """As the name suggests , These commands are totally for fun!"""
+
     def __init__(self,bot):
         self.bot = bot
 

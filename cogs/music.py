@@ -165,7 +165,7 @@ class MusicPlayer:
         return self.bot.loop.create_task(self._cog.cleanup(guild))
 
 
-class Music(commands.Cog):
+class music(commands.Cog):
     """Music related commands."""
 
     __slots__ = ("bot", "players")
@@ -432,4 +432,4 @@ class Music(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Music(bot))
+    bot.add_cog(music(bot))

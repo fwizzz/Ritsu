@@ -1,11 +1,11 @@
-from cogs.XOgame.utils import XOgame
+from cogs.XOgame.utils import TicTacToe
 
 
 player1 = input("Enter username of player1 :")
 player2 = input("Enter username of player1 :")
 
 
-game = XOgame(player1,player2)
+game = TicTacToe(player1,player2)
 game.new_grid()
 
 print(game.show_grid())

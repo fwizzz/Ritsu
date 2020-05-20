@@ -4,17 +4,16 @@ import pandas as pd
 from ServerXpSystem import ServerXPsystem as SXS
 import numpy as np
 from cogs.embedHandler import get_level,get_rank
+import asyncio
 
-class ServerXPcommands(commands.Cog):
+class leveling(commands.Cog):
     
     def __init__(self,bot):
         self.bot = bot
-        
 
-
-    @commands.command(aliases =["leaderboard","ranks","ServerRank"])
-    async def serverRanks(self,ctx,rows = 10):
-        data = pd.read_csv(f"ServerXPSystem/{ctx.guild.name}.csv")
+    @commands.command(aliases =["ranks","guildranks","lb"])
+    async def leaderboard(self,ctx,rows = 10):
+        data = pd.read_csv(f"ServerXpSystem/{ctx.guild.name}.csv")
         data.sort_values(by=['XP'], inplace=True, ascending=False, ignore_index=True)
         data.index += 1
         data.drop(['Unnamed: 0', 'memberID'],axis=1,inplace=True)
@@ -22,25 +21,44 @@ class ServerXPcommands(commands.Cog):
         embed.set_thumbnail(url=ctx.guild.icon_url)
         await ctx.send(embed=embed)
 
-    @commands.command(aliases= ["showrank","ShowRank","Rankshow","rankshow"])
-    async def memberRank(self,ctx,member: discord.Member):
+    @commands.command(aliases= ["rank","ShowRank","Rankshow","rankshow"])
+    async def showrank(self,ctx,member: discord.Member=None):
         try:
-            data = pd.read_csv(f"ServerXPSystem/{member.guild.name}.csv")
-            memberRow = data[data.memberID == int(member.id)]
-            level = get_level(memberRow.level.values[0])
-            embed = discord.Embed(title=f"{member.display_name} rank",description=level)
-            embed.set_thumbnail(url=member.avatar_url)
-            embed.add_field(name="Rank",value=f"**{get_rank(member)}**")
-            await ctx.send(embed=embed)
+            if member is not None:
+                data = pd.read_csv(f"ServerXpSystem/{member.guild.name}.csv")
+                memberRow = data[data.memberID == int(member.id)]
+                level = get_level(memberRow.level.values[0])
+                embed = discord.Embed(title=f"{member.display_name} rank", description=level)
+                embed.set_thumbnail(url=member.avatar_url)
+                embed.add_field(name="Rank", value=f"**{get_rank(member)}**")
+                await ctx.send(embed=embed)
+            else:
+                member = ctx.author
+
+                data = pd.read_csv(f"ServerXpSystem/{member.guild.name}.csv")
+                memberRow = data[data.memberID == int(member.id)]
+                level = get_level(memberRow.level.values[0])
+                embed = discord.Embed(title=f"{member.display_name} rank", description=level)
+                embed.set_thumbnail(url=member.avatar_url)
+                embed.add_field(name="Rank", value=f"**{get_rank(member)}**")
+                await ctx.send(embed=embed)
+
         except:
-            pass
+            await ctx.send("please try again")
 
+    async def is_owner(ctx):
+        return ctx.author.id == 247292930346319872
 
-
-
-
-
+    @commands.command()
+    @commands.check(is_owner)
+    async def remove_member(self,ctx,member:discord.Member):
+            msg = await ctx.send(f"<a:loading:706195460439933000> | Removing **{member.name}**")
+            data = pd.read_csv(f"ServerXpSystem/{member.guild.name}.csv")
+            data = data[data.memberID != int(member.id)]
+            data.to_csv(f"ServerXpSystem/{ctx.guild.name}.csv",index = False)
+            await asyncio.sleep(2)
+            await msg.edit(content = f"<:verified:610713784268357632> | Removed **{member.name}** from the leaderboard")
 
 
 def setup(bot):
-    bot.add_cog(ServerXPcommands(bot))
+    bot.add_cog(leveling(bot))

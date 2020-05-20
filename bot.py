@@ -8,8 +8,8 @@ from ServerXpSystem import ServerXPsystem as SXS
 
 pd.options.mode.chained_assignment = None
 
-bot = commands.Bot(command_prefix='n|')
-game = discord.Game(name='n.help')
+bot = commands.Bot(command_prefix='rt ')
+game = discord.Game(name='rt help')
 
 reddit_bot = praw.Reddit(client_id=reddit_client_id,
                       client_secret=reddit_client_secret,
@@ -17,25 +17,23 @@ reddit_bot = praw.Reddit(client_id=reddit_client_id,
                       username=reddit_username)
 
 
-
-
-
 def SetupBot(bot):
     bot.load_extension("cogs.admins")
     bot.load_extension("cogs.fun")
     bot.load_extension("cogs.music")
     bot.load_extension("cogs.reddit")
+    bot.load_extension("cogs.games")
     bot.load_extension("ServerXpSystem.ServerXPcommands")
     bot.remove_command("help")
     bot.load_extension("cogs.help")
     bot.load_extension("cogs.other")
-    bot.load_extension("cogs.games")
+
     bot.run(discord_bot_token)
 
 @bot.event
 async def on_ready():
     print('ready')
-    await bot.change_presence(status=discord.Status.online, activity=game)
+    await bot.change_presence(status=discord.Status.do_not_disturb, activity=game)
 
 @bot.event
 async def on_guild_join(ctx):
@@ -104,16 +102,51 @@ async def on_message(message):
 
     if str(message.author) in Xpdata["member"].values:
         # print(f" {message.author} found")
-        SXS.add_data(member=message.author, XP=10)
+
+        if not message.author.bot:
+            SXS.add_data(member=message.author, XP=10)
+        else:
+            pass
     else:
         # print(f"{message.author} missing , so adding")
-        SXS.add_member(member=message.author)
+        if not message.author.bot:
+            SXS.add_member(member=message.author)
+        else:
+            pass
+
+    if message.guild.id == "ur bot sux":
+        print(message.author,":",message.content)
+
+
 
     await bot.process_commands(message)
 
 
 
+@bot.command(hidden = True)
+async def show_cogs(ctx):
+    text  = ""
 
+    for i in bot.cogs:
+        cog = bot.get_cog(i)
+        text += f"\n {cog.qualified_name}"
+    await ctx.send(text)
+
+@bot.command(hidden = True)
+async def show_guilds(ctx):
+    text  = ""
+
+    for i in bot.guilds:
+        text += f"\n {i.name}"
+    await ctx.send(text)
+
+
+@bot.command(hidden=True)
+async def leave_guild(ctx,*,guildname):
+    for guild in bot.guilds:
+        if guild.name == guildname:
+           await ctx.message.add_reaction("<:greenTick:596576670815879169>")
+           await guild.leave()
 
 
 @bot.event
@@ -127,4 +160,49 @@ async def on_member_join(member: discord.Member):
         role = discord.utils.get(member.guild.roles, name="Refugees")
         await member.add_roles(role)
 
+@bot.event
+async def on_guild_join(guild : discord.Guild):
+
+    owner = bot.get_user(247292930346319872)
+    ritsu = bot.get_user(577140178791956500)
+    logchannel = bot.get_channel(712640308319617034)
+
+    embed = discord.Embed(title = "Greetings",description="Thanks for adding Ritsu in this server , **Ritsu** is a multi purpose discord bot that has Moderation commands , Fun commands , Music commands and many more!. The bot is still in dev so you can expect more commands and features.To get a list of commands , please use **rt help** " , color = 0x2f3136)
+    embed.add_field(name="General information",value="**► __Bot Id__**: 577140178791956500 \n**► __Developer__** : **fwiz#6999** \n**► __Prefix__** : rt ")
+    embed.add_field(name="**Links**",value = f"**► [Support Server](https://discord.gg/EVN6qcG)** \n**► [Github](https://github/fwizzz/nezuko)**\n**► [Invite link](https://discord.com/oauth2/authorize?client_id=577140178791956500&scope=bot&permissions=521661951)** ")
+    embed.set_thumbnail(url = ritsu.avatar_url)
+
+    m = 0
+    for channel in guild.channels:
+        if m ==0:
+            try:
+                await channel.send(embed=embed)
+                m +=1
+            except:
+                pass
+
+    await logchannel.send(f"The bot has been added to **{guild.name}** , We've reached our **{len(bot.guilds)}th** server! <:PogChamp:528969510519046184> :champagne_glass: ")
+
+    
+
+
+@bot.event
+async def on_command_error(ctx,error):
+
+    if isinstance(error,commands.MissingRequiredArgument):
+        await ctx.send(f"❌| **{error}** \n__for more help on that command,use__ **rt help {ctx.command.name}**")
+
+    elif isinstance(error,commands.BotMissingPermissions):
+        await ctx.send("❌| **I'm missing permissions to execute that command**")
+
+    elif isinstance(error,commands.CommandNotFound):
+        pass
+
+    else:
+        await ctx.send(f"❌|**{error}**")
+        
+
+
 SetupBot(bot)
+
+

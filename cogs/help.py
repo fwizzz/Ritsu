@@ -15,9 +15,6 @@ class Help(commands.Cog, name="Help"):
     async def help(self, ctx, cog=None):
         """Shows help message."""
 
-
-
-
         color = ctx.guild.get_member(577140178791956500).top_role.color
 
         nextbtn = "⏩"
@@ -33,9 +30,9 @@ class Help(commands.Cog, name="Help"):
             for cog in self.client.cogs:
                 cogs.append(cog)
 
-            pages = math.ceil(len(cogs) / 5)
+            pages = math.ceil(len(cogs) / 7)
             while True:
-                use = cogs[page * 5:(page * 5) + 6]
+                use = cogs[page * 7:(page * 7) + 6]
                 for cog in use:
                     cog = self.client.get_cog(cog)
                     commands = cog.get_commands()
@@ -53,20 +50,46 @@ class Help(commands.Cog, name="Help"):
                             doc = cog.__doc__
 
                         name = cog.qualified_name
+                        commands = cog.get_commands()
 
-                        if name == "admins":
-                            name = "admins "
-                            cats += f"► **{name}**    <:rooCop:596577110982918146>  \n"
+                        shown_commands = []
+
+                        for command in commands:
+                            if command.hidden:
+                                pass
+                            else:
+                                cmdname_modified = f"`{command.name}`  "
+                                shown_commands.append(cmdname_modified)
+
+                        cmds = "".join(shown_commands)
+
+                        if name == "moderation":
+                            cats += f"► **{name}**    <a:BearCop:711584228659429458> \n "
+
                         elif name == "fun":
                             cats += f"► **{name}** <a:1coolestpp:648915201592262696>  \n"
-                        elif name == "Music":
-                            cats += f"► **{name}** <a:ColorfulDino:710821295645786170>  \n"
-                        elif name == "ServerXPcommands":
-                            cats += f"► **{name}** <a:kat:710821703286259782>   \n"
+                        elif name == "music":
+                            cats += f"► **{name}** <a:ColorfulDino:710821295645786170>  \n "
+
+                        elif name == "leveling":
+                            cats += f"► **{name}**  <a:kat:710821703286259782>   \n"
+
+                        elif name == "other":
+                            cats += f"► **{name}**  <a:other:711616866870624346>   \n"
+
+                        elif name == "games":
+                            cats += f"► **{name}** <a:WumpusHype:711477884866265090> \n"
+
+                        elif name == "reddit":
+                            cats += f"► **{name}** <:reddit:711990234736361566>\n"
+
+
+
+
 
 
                         #desc += "**__" + name + "__** \n"
-                desc = f"Type `help <category>` to get help on a category. \n "
+                desc = f"Type `rt help <category>` to get help on a category. \n "
                 desc +=  "```diff\n+ <> denotes an argument that has to be passed in \n- DO NOT ACTUALLY USE <> WHEN USING COMMANDS ```"
                 embed = discord.Embed(
                     description=desc,
@@ -102,12 +125,18 @@ class Help(commands.Cog, name="Help"):
                             page = pages - 1
                         desc = ""
                         cats  = ""
+
+
                     elif r.emoji == prevbtn:
+
                         page -= 1
                         if page < 0:
                             page = 0
                         desc = ""
                         cats = ""
+
+
+
 
                     try:
                         await msg.remove_reaction(r.emoji, u)
@@ -139,17 +168,27 @@ class Help(commands.Cog, name="Help"):
                 if len(shown_commands) > 0:
                     cmds = "\n".join(shown_commands)
 
-                    if cogg.qualified_name == "admins":
-                        cogname = f"**{cogg.qualified_name}**    <:rooCop:596577110982918146>  \n"
+                    if cogg.qualified_name == "moderation":
+                        cogname = f"**{cogg.qualified_name}**    <a:BearCop:711584228659429458>  \n"
 
                     if cogg.qualified_name == "fun":
                         cogname = f"**{cogg.qualified_name}**    <a:1coolestpp:648915201592262696>  \n"
 
-                    if cogg.qualified_name == "Music":
+                    if cogg.qualified_name == "music":
                         cogname = f"**{cogg.qualified_name}**    <a:ColorfulDino:710821295645786170>  \n"
 
-                    if cogg.qualified_name == "ServerXPcommands":
+                    if cogg.qualified_name == "leveling":
                         cogname = f"**{cogg.qualified_name}**    <a:kat:710821703286259782>  \n"
+
+                    if cogg.qualified_name == "games":
+                        cogname = f"**{cogg.qualified_name}**    <a:WumpusHype:711477884866265090> \n"
+
+                    if cogg.qualified_name == "other":
+                        cogname = f"**{cogg.qualified_name}**    <a:other:711616866870624346> \n"
+
+                    if cogg.qualified_name == "reddit":
+                        cogname = f"**{cogg.qualified_name}**    <:reddit:711990234736361566> \n"
+
 
 
 

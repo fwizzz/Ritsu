@@ -12,7 +12,6 @@ class TicTacToe():
 
     def create_grid(self):
         grid = np.zeros((3,3))
-
         return grid
 
     def delete_grid(self):
@@ -54,7 +53,10 @@ class TicTacToe():
             np.save("gridfile",grid)
 
         grid = np.load("gridfile.npy")
-        grid[position] = 1
+        if grid[position] == 0:
+            grid[position] = 1
+        else:
+            raise Exception("That box has already been filled")
 
 
         np.save("gridfile",grid)
@@ -252,7 +254,7 @@ class TicTacToe():
                     result_list.append(False)
             else:
                 result_list.append(False)
-        elif 0 not in diag2:
+        if 0 not in diag2:
             if diag2[0] == diag2[1]:
                 if diag2[1] == diag2[2]:
                     result_list.append(True)
@@ -289,6 +291,24 @@ class TicTacToe():
         except:
             pass
 
+    def empty_boxes(self):
+
+        try:
+            grid = np.load("gridfile.npy")
+            index_list = np.where(grid.flatten() == 0.)
+            final_val = ""
+
+            for i in index_list[0]:
+                i += 1
+                print(i)
+                final_val += str(i)
+
+            return final_val
+
+        except:
+            pass
+
+
 
 
 
@@ -317,3 +337,36 @@ def deleteGame():
        os.remove("gridfile.npy")
     except:
         pass
+
+def toEmoji(nums_str):
+    emojiList  = []
+    for i in nums_str:
+        if i == "1":
+            emojiList.append("1️⃣")
+        if i == "2":
+            emojiList.append("2️⃣")
+        if i == "3":
+            emojiList.append("3️⃣")
+        if i == "4":
+            emojiList.append("4️⃣")
+
+        if i == "5":
+            emojiList.append("5️⃣")
+
+        if i == "6":
+            emojiList.append("6️⃣")
+            
+        if i == "7":
+            emojiList.append("7️⃣")
+
+        if i == "8":
+            emojiList.append("8️⃣")
+
+        if i =="9":
+            emojiList.append("9️⃣")
+
+    return emojiList
+
+
+
+        

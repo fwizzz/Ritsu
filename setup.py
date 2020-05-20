@@ -1,4 +1,4 @@
-reddit_client_id = "EvLPVk7GCoVgrQ"
+reddit_client_id = ""
 reddit_client_secret = ""
 reddit_username=''
 

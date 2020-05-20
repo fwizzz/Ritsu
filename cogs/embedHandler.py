@@ -130,6 +130,11 @@ async def get_badges(member: discord.Member, bot):
 
         if str(i) == "verified_dev":
             i = "<:dev:710864395588206612> **Verified Bot Developer**"
+        if str(i) == "hs_events":
+            i = "<:events:710864377791643690> **HypeSquad Events**"
+
+        if str(i) == "discord_partner":
+            i = "<:DiscordPartner:710860869252415630> **Discord Partner**"
 
         stuff += f"\n {str(i)}"
 
@@ -137,6 +142,11 @@ async def get_badges(member: discord.Member, bot):
         i = "<:nitro:710866062924709938> **Nitro Subscriber**"
         print("nitro subscriber")
         stuff += f"\n {str(i)}"
+
+    if member.premium_since is not None:
+        i = "<:booster:711878282965942333> **Server Booster**"
+        stuff += f"\n {str(i)}"
+
 
     else:
         print("no",get_content_type(member.avatar_url))

@@ -48,7 +48,7 @@ class other(commands.Cog):
         embed.add_field(name="**Server Boost level**",value=get_tier(ctx.guild),inline=False)
         await ctx.send(embed=embed)
 
-    @commands.command(aliases=["info", "stats", "Status","showprofile","profile","showinfo"])
+    @commands.command(aliases=["ui","info", "stats", "Status","showprofile","profile","showinfo"])
     async def userinfo(self, ctx, *, member : discord.Member = None):
         if member is not None:
             await StatusEmbed(ctx,member,bot = self.bot)

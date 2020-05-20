@@ -11,6 +11,8 @@ reddit_bot = praw.Reddit(client_id=reddit_client_id,
                       user_agent='random',
                       username=reddit_username)
 
+color = discord.Color.orange()
+
 class reddit(commands.Cog):
 
     """This category includes Commands relating to reddit posts"""
@@ -26,7 +28,7 @@ class reddit(commands.Cog):
         embed.set_image(url=randompost.url)
         await ctx.send(embed=embed)
 
-    @commands.command()
+    @commands.command(aliases = ["new"])
     async def newpost(self, ctx, subreddit_name):
         """sends you the fresh posts from a subreddit"""
         subreddit = reddit_bot.subreddit(f'{subreddit_name}')
@@ -45,8 +47,9 @@ class reddit(commands.Cog):
                 else:
                     embed = discord.Embed(title=randompost.title,
                                           url=randompost.url,
-                                          colour=0x3498db)
+                                          colour=color)
                     embed.set_image(url=randompost.url)
+                    embed.set_footer(text="Reddit",icon_url="https://lh3.googleusercontent.com/proxy/WSALMFr5sh0W6ISOCIE05dGkMWFr07YltgfykxUx-6stycRoLB_LRG50DrdTUwPmVOrNLNDEug6gThwbMYMXDRGpiQCBocwxFJ5VonhzaLHJ44qxruE")
                     embed.add_field(name="<:reddit_updoot:684067800066949180> upvotes ", value=randompost.score)
                     embed.add_field(name="💬 comments ", value=len(randompost.comments))
 
@@ -67,6 +70,8 @@ class reddit(commands.Cog):
                                       colour=0x3498db)
                 embed.set_image(url=randompost.url)
                 embed.add_field(name="<:reddit_updoot:684067800066949180> upvotes ", value=randompost.score)
+                embed.set_footer(text="Reddit",
+                                 icon_url="https://lh3.googleusercontent.com/proxy/WSALMFr5sh0W6ISOCIE05dGkMWFr07YltgfykxUx-6stycRoLB_LRG50DrdTUwPmVOrNLNDEug6gThwbMYMXDRGpiQCBocwxFJ5VonhzaLHJ44qxruE")
                 embed.add_field(name="💬 comments ", value=len(randompost.comments))
 
                 await ctx.send(embed=embed)
@@ -74,8 +79,8 @@ class reddit(commands.Cog):
 
 
 
-    @commands.command()
-    async def hotpost(self, ctx, subreddit_name):
+    @commands.command(aliases = ["hot"])
+    async def hotpost(self,ctx, subreddit_name):
         """sends you the hottest posts from a subreddit"""
         subreddit = reddit_bot.subreddit(f'{subreddit_name}')
         hotposts = subreddit.hot(limit=10)
@@ -94,10 +99,12 @@ class reddit(commands.Cog):
                 else:
                     embed = discord.Embed(title=randompost.title,
                                           url=randompost.url,
-                                          colour=0x3498db)
+                                          colour=color)
                     embed.set_image(url=randompost.url)
-                    embed.add_field(name="upvotes <:reddit_updoot:684067800066949180>", value=randompost.score)
-                    embed.add_field(name="comments 💬", value=len(randompost.comments))
+                    embed.add_field(name="<:reddit_updoot:684067800066949180> upvotes ", value=randompost.score)
+                    embed.set_footer(text="Reddit",
+                                     icon_url="https://lh3.googleusercontent.com/proxy/WSALMFr5sh0W6ISOCIE05dGkMWFr07YltgfykxUx-6stycRoLB_LRG50DrdTUwPmVOrNLNDEug6gThwbMYMXDRGpiQCBocwxFJ5VonhzaLHJ44qxruE")
+                    embed.add_field(name=" 💬 comments", value=len(randompost.comments))
 
                     await ctx.send(embed=embed)
             else:
@@ -113,10 +120,11 @@ class reddit(commands.Cog):
             else:
                 embed = discord.Embed(title=randompost.title,
                                       url=randompost.url,
-                                      colour=0x3498db)
+                                      colour=color)
                 embed.set_image(url=randompost.url)
-                embed.add_field(name="upvotes <:reddit_updoot:684067800066949180>", value=randompost.score)
-                embed.add_field(name="comments 💬", value=len(randompost.comments))
+                embed.set_footer(text="Reddit",icon_url="https://lh3.googleusercontent.com/proxy/WSALMFr5sh0W6ISOCIE05dGkMWFr07YltgfykxUx-6stycRoLB_LRG50DrdTUwPmVOrNLNDEug6gThwbMYMXDRGpiQCBocwxFJ5VonhzaLHJ44qxruE")
+                embed.add_field(name="<:reddit_updoot:684067800066949180> upvotes ", value=randompost.score)
+                embed.add_field(name="💬 comments ", value=len(randompost.comments))
 
                 await ctx.send(embed=embed)
 
