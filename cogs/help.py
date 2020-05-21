@@ -33,7 +33,7 @@ class Help(commands.Cog, name="Help"):
             pages = math.ceil(len(cogs) / 7)
             while True:
                 use = cogs[page * 7:(page * 7) + 6]
-                for cog in use:
+                for cog in cogs:
                     cog = self.client.get_cog(cog)
                     commands = cog.get_commands()
                     shown_commands = []
@@ -89,18 +89,19 @@ class Help(commands.Cog, name="Help"):
 
 
                         #desc += "**__" + name + "__** \n"
-                desc = f"Type `rt help <category>` to get help on a category. \n "
-                desc +=  "```diff\n+ <> denotes an argument that has to be passed in \n- DO NOT ACTUALLY USE <> WHEN USING COMMANDS ```"
+
+                desc += '```py\n\n"<> denotes an argument/parameter of a command"\n@ DO NOT ACTUALLY USE TYPE <> WHEN TYPING COMMANDS \n``` \n'
+                desc += f"Type `rt help <category>` to get help on a category. \n "
                 embed = discord.Embed(
                     description=desc,
                     color = color,
-                    title="Nezuko help",
+                    title="Ritsu help",
                     timestamp=ctx.message.created_at
                 )
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.add_field(name="**Categories**",value=cats)
 
-                links = "[►GitHub](https://github.com/fwizzz/Nezuko)\n [►Support Server](https://discord.gg/55ywZKj)"
+                links = "► [GitHub](https://github.com/fwizzz/Ritsu)\n ► [Support Server](https://discord.gg/55ywZKj)"
                 owner = self.client.get_user(247292930346319872)
                 embed.add_field(name= "**Links**",value = links)
                 embed.set_footer(text = f"Created by {str(owner)}",icon_url=owner.avatar_url)
@@ -109,9 +110,9 @@ class Help(commands.Cog, name="Help"):
                 except:
                     msg = await ctx.send(embed=embed)
 
-                await msg.add_reaction(prevbtn)
-                await asyncio.sleep(0.1)
-                await msg.add_reaction(nextbtn)
+
+
+
 
                 def check(r, u):
                     return (u.id == ctx.author.id) and ((r.message.id == msg.id) and r.emoji in valids)
