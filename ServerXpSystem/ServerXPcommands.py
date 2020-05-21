@@ -62,7 +62,7 @@ class leveling(commands.Cog):
 
     @commands.command(hidden=True)
     @commands.check(is_owner)
-    async def fuck_up_levels(self, ctx):
+    async def reset_levels(self, ctx):
         member = ctx.author
         msg = await ctx.send(f"<a:loading:706195460439933000> | Resetting levels for **{member.guild.name}**")
         os.remove(f"ServerXpSystem/{ctx.guild.name}.csv")
