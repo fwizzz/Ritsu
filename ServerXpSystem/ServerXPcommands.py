@@ -60,9 +60,9 @@ class leveling(commands.Cog):
             await asyncio.sleep(2)
             await msg.edit(content = f"<:verified:610713784268357632> | Removed **{member.name}** from the leaderboard")
 
-    @commands.command(hidden=True)
+    @commands.command(hidden=True,aliases = ["guildreset"])
     @commands.check(is_owner)
-    async def reset_levels(self, ctx):
+    async def resetlevels(self, ctx):
         member = ctx.author
         msg = await ctx.send(f"<a:loading:706195460439933000> | Resetting levels for **{member.guild.name}**")
         os.remove(f"ServerXpSystem/{ctx.guild.name}.csv")
