@@ -32,7 +32,7 @@ class other(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def guildinfo(self, ctx):
+    async def guildinfo(self, ctx,*, guildname  = None ):
 
         def get_tier(guild : discord.Guild):
             if guild.premium_tier == 0:
@@ -44,16 +44,41 @@ class other(commands.Cog):
             if guild.premium_tier == 3:
                 return f"🔷 **Level 3** ({guild.premium_subscription_count} boosts)"
 
+        if guildname is not None:
 
-        embed = discord.Embed(title=f"{ctx.guild.name} ",description=ctx.guild.description,
-                              color=discord.Color.green())
-        embed.set_thumbnail(url=ctx.guild.icon_url)
-        embed.add_field(name="**Region :round_pushpin: **",value=f"{str(ctx.guild.region)}",inline=False)
-        embed.add_field(name="**Owner :crown: **",value=ctx.guild.owner.mention,inline=False)
-        embed.add_field(name="**Created at :clock7: ** ",value=f"{str(ctx.guild.created_at)[:10]}",inline=False)
-        embed.add_field(name="**Member Count**",value=f"{ctx.guild.member_count}",inline=False)
-        embed.add_field(name="**Server Boost level**",value=get_tier(ctx.guild),inline=False)
-        await ctx.send(embed=embed)
+            for guild in self.bot.guilds:
+                if guildname == guild.name:
+                    await ctx.message.add_reaction("<:greenTick:596576670815879169>")
+                    embed = discord.Embed(title=f"{guild.name} ", description=ctx.guild.description,
+                                          color=discord.Color.green())
+                    embed.set_thumbnail(url=guild.icon_url)
+                    embed.add_field(name="**Region :round_pushpin: **", value=f"{str(guild.region)}", inline=False)
+                    embed.add_field(name="**Owner :crown: **", value=guild.owner.mention, inline=False)
+                    embed.add_field(name="**Created at :clock7: ** ", value=f"{str(guild.created_at)[:10]}",
+                                    inline=False)
+                    embed.add_field(name="**Member Count**", value=f"{guild.member_count}", inline=False)
+                    embed.add_field(name="**Server Boost level**", value=get_tier(guild), inline=False)
+                    await ctx.send(embed=embed)
+
+                else:
+                    await ctx.send(f"**{guildname}** not found ")
+
+        else:
+
+            embed = discord.Embed(title=f"{ctx.guild.name} ", description=ctx.guild.description,
+                                  color=discord.Color.green())
+            embed.set_thumbnail(url=ctx.guild.icon_url)
+            embed.add_field(name="**Region :round_pushpin: **", value=f"{str(ctx.guild.region)}", inline=False)
+            embed.add_field(name="**Owner :crown: **", value=ctx.guild.owner.mention, inline=False)
+            embed.add_field(name="**Created at :clock7: ** ", value=f"{str(ctx.guild.created_at)[:10]}",
+                            inline=False)
+            embed.add_field(name="**Member Count**", value=f"{ctx.guild.member_count}", inline=False)
+            embed.add_field(name="**Server Boost level**", value=get_tier(ctx.guild), inline=False)
+            await ctx.send(embed=embed)
+
+
+
+
 
     @commands.command(aliases=["ui","info", "stats", "Status","showprofile","profile","showinfo"])
     async def userinfo(self, ctx, *, member : discord.Member = None):
