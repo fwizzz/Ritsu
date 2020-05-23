@@ -67,18 +67,18 @@ class Help(commands.Cog, name="Help"):
                             cats += f"► **{name}**    <a:BearCop:711584228659429458> \n "
 
                         elif name == "fun":
-                            cats += f"► **{name}** <a:1coolestpp:648915201592262696>  \n"
+                            cats += f"► **{name}** <:haha:613185229653409883>  \n"
                         elif name == "music":
-                            cats += f"► **{name}** <a:ColorfulDino:710821295645786170>  \n "
+                            cats += f"► **{name}** <:FeelsBeatsMan:597591202614738947>   \n "
 
                         elif name == "leveling":
                             cats += f"► **{name}**  <a:kat:710821703286259782>   \n"
 
                         elif name == "other":
-                            cats += f"► **{name}**  <a:other:711616866870624346>   \n"
+                            cats += f"► **{name}**  <:rooEZSip:596577108675788800>  \n"
 
                         elif name == "games":
-                            cats += f"► **{name}** <a:WumpusHype:711477884866265090> \n"
+                            cats += f"► **{name}** :video_game:  \n"
 
                         elif name == "reddit":
                             cats += f"► **{name}** <:reddit:711990234736361566>\n"
@@ -173,10 +173,10 @@ class Help(commands.Cog, name="Help"):
                         cogname = f"**{cogg.qualified_name}**    <a:BearCop:711584228659429458>  \n"
 
                     if cogg.qualified_name == "fun":
-                        cogname = f"**{cogg.qualified_name}**    <a:1coolestpp:648915201592262696>  \n"
+                        cogname = f"**{cogg.qualified_name}**    <:haha:613185229653409883> \n"
 
                     if cogg.qualified_name == "music":
-                        cogname = f"**{cogg.qualified_name}**    <a:ColorfulDino:710821295645786170>  \n"
+                        cogname = f"**{cogg.qualified_name}**    <:FeelsBeatsMan:597591202614738947>  \n"
 
                     if cogg.qualified_name == "leveling":
                         cogname = f"**{cogg.qualified_name}**    <a:kat:710821703286259782>  \n"
@@ -185,7 +185,7 @@ class Help(commands.Cog, name="Help"):
                         cogname = f"**{cogg.qualified_name}**    <a:WumpusHype:711477884866265090> \n"
 
                     if cogg.qualified_name == "other":
-                        cogname = f"**{cogg.qualified_name}**    <a:other:711616866870624346> \n"
+                        cogname = f"**{cogg.qualified_name}**    <:rooEZSip:596577108675788800>  \n"
 
                     if cogg.qualified_name == "reddit":
                         cogname = f"**{cogg.qualified_name}**    <:reddit:711990234736361566> \n"
