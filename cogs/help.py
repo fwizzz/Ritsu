@@ -182,7 +182,7 @@ class Help(commands.Cog, name="Help"):
                         cogname = f"**{cogg.qualified_name}**    <a:kat:710821703286259782>  \n"
 
                     if cogg.qualified_name == "games":
-                        cogname = f"**{cogg.qualified_name}**    <a:WumpusHype:711477884866265090> \n"
+                        cogname = f"**{cogg.qualified_name}**    :video_game: \n"
 
                     if cogg.qualified_name == "other":
                         cogname = f"**{cogg.qualified_name}**    <:rooEZSip:596577108675788800>  \n"
