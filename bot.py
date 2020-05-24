@@ -149,16 +149,7 @@ async def leave_guild(ctx,*,guildname):
            await guild.leave()
 
 
-@bot.event
-async def on_member_join(member: discord.Member):
 
-    if member.guild.id == 577192344529404154:
-        pass
-    else:
-        await member.guild.system_channel.send('Welcome to ' + member.guild.name + ' ! ' + member.mention)
-    if member.guild.id == 411564918303752192:
-        role = discord.utils.get(member.guild.roles, name="Refugees")
-        await member.add_roles(role)
 
 @bot.event
 async def on_guild_join(guild : discord.Guild):
