@@ -5,7 +5,7 @@
 
 ![Python-Versions](https://img.shields.io/badge/python-3.7-blue?style=flat-square)
 ![Discord.py-Version](https://img.shields.io/badge/discord.py-1.3.3-blue?style=flat-square)
-A simple discord bot built in discord.py
+<br> A simple discord bot built in discord.py </br>
 
 
 
