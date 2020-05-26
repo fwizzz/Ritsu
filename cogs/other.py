@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import pandas as pd
 from cogs.embedHandler import StatusEmbed
+from cogs.utils.constants import bot_avatar
 class other(commands.Cog):
 
     """This category involves commands that have no particular category"""
@@ -28,7 +29,7 @@ class other(commands.Cog):
                         value=f"**► [Support Server](https://discord.gg/EVN6qcG)** \n"
                               f"**► [Github](https://github/fwizzz/nezuko)**\n"
                               f"**► [Invite link](https://discord.com/oauth2/authorize?client_id=577140178791956500&scope=bot&permissions=521661951) \n** ")
-        embed.set_thumbnail(url=ritsu.avatar_url)
+        embed.set_thumbnail(url=bot_avatar)
         await ctx.send(embed=embed)
 
     @commands.command()
