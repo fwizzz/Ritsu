@@ -91,7 +91,7 @@ class Help(commands.Cog, name="Help"):
 
                         #desc += "**__" + name + "__** \n"
 
-                desc += '```py\n\n"<> denotes an argument/parameter of a command"\n@ DO NOT ACTUALLY USE TYPE <> WHEN TYPING COMMANDS \n``` \n'
+                #desc += '```py\n\n"<> denotes an argument/parameter of a command"\n@ DO NOT ACTUALLY USE TYPE <> WHEN TYPING COMMANDS \n``` \n'
                 desc += f"Type `rt help <category>` to get help on a category. \n "
                 embed = discord.Embed(
                     description=desc,

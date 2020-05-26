@@ -27,10 +27,10 @@ def get_activity(member):
 
 def get_status(member):
     if member.status == discord.Status.dnd:
-        return "🔴"
+        return "<:dnd2:464520569560498197>"
 
     elif member.status == discord.Status.online:
-        return "🟢 "
+        return "<:online:313956277808005120>"
 
     elif member.status == discord.Status.idle:
         return "🌙"
@@ -106,6 +106,15 @@ def format_date(join_date: datetime.datetime):
 def get_content_type(url):
     return requests.head(url).headers['Content-Type']
 
+def get_device(member : discord.Member):
+
+    if member.is_on_mobile():
+        return ":iphone: Mobile "
+    else:
+        return ":desktop: Desktop"
+
+
+
 
 async def get_badges(member: discord.Member, bot):
     val = (await bot.http.get_user(member.id))['public_flags']
@@ -152,51 +161,87 @@ async def get_badges(member: discord.Member, bot):
         print("no",get_content_type(member.avatar_url))
     return stuff
 
+def add_bot(member):
+    if member.bot:
+        return "<:bot:714777219590782996>"
+    else:
+        return ""
 
-async def StatusEmbed(ctx, member : discord.Member, bot, desc=None):
-    if member.is_on_mobile() and member.status != discord.Status.offline:
-        embed = discord.Embed(title=f"{get_status(member)} {member.display_name} ",
-                              description=desc, color=member.top_role.color)
-        embed.add_field(name="**Device **", value="Phone: :iphone:  ", inline=False)
+async def get_badges_desc(member: discord.Member, bot):
+    val = (await bot.http.get_user(member.id))['public_flags']
+    badges = [*UserFlags(val)]
+    stuff = ""
+    for i in list(badges):
+        if str(i) == "hs_balance":
+            stuff += "<:hsBalance:710512831463686235> "
+        elif str(i) == "hs_brilliance":
+            stuff += "<:BrillianceLogo:710518070640378021> "
+
+        elif str(i) == "hs_bravery":
+            stuff += "<:bravery:710518487390486549>"
+
+        elif str(i) == "early_supporter":
+            stuff += "<:earlysupporter:710859759938568212> "
+
+        elif str(i) == "bug_hunter_lvl1":
+            stuff += "<:Bughunter:710861051322957905> "
+
+        elif str(i) == "bug_hunter_lvl2":
+            stuff += "<:bug2:710864460612632596> "
+
+        elif str(i) == "verified_dev":
+            stuff += "<:dev:710864395588206612> "
+        elif str(i) == "hs_events":
+            stuff += "<:events:710864377791643690> "
+
+        elif str(i) == "discord_partner":
+            stuff += "<:DiscordPartner:710860869252415630> "
+
+        else:
+            pass
+
+    if get_content_type(member.avatar_url) == "image/gif":
+        stuff += "<:nitro:710866062924709938>"
+
+
+    if member.premium_since is not None:
+        stuff += "<:booster:711878282965942333>"
+
+    return stuff
+
+
+async def StatusEmbed(ctx, member : discord.Member, bot):
+        embed = discord.Embed(title=f"{get_status(member)} {member.display_name}  {add_bot(member)}",
+                              description=await get_badges_desc(member,bot), color=member.top_role.color)
+
+        embed.add_field(name="General info",
+                        value=f"•  **Join date**      : {format_date(member.joined_at)} "
+                              f"\n•  **Created date** : {format_date(member.created_at)} "
+                              f"\n•  **User Id**      : {member.id}"
+                              f"\n•  **Device**      : {get_device(member)}")
+
         # embed.set_author(member.display_name)
-        embed.add_field(name="**Server Level :small_orange_diamond:**", value=f"{get_level(get_member_XP(member))} ",
-                        inline=False)
-        embed.add_field(name="**Server Rank**", value=f"**{get_rank(member)} **", inline=False)
-        embed.add_field(name="**Badges**", value=await get_badges(member, bot), inline=False)
-        embed.add_field(name="**Stats**",value=f"►**__Join date__** : {format_date(member.joined_at)} \n►**__Created date__** : {format_date(member.created_at)} ")
+        #embed.add_field(name="Badges", value=await get_badges(member, bot), inline=False)
 
-        embed.add_field(name="**Top role**", value=member.top_role.mention, inline=False)
-        embed.add_field(name="**Activity**", value=get_activity(member=member), inline=False)
+        embed.add_field(name="Server Level :small_orange_diamond:", value=f"{get_level(get_member_XP(member))} ", inline=False)
+
+
+        embed.add_field(name="Server Rank", value=f"**{get_rank(member)} **")
+
+
+
+        if member.top_role == ctx.guild.default_role:
+           pass
+        else:
+            embed.add_field(name="Top role", value=member.top_role.mention, inline=False)
+
+
+        embed.add_field(name="Activity", value=get_activity(member=member), inline=False)
 
         embed.set_thumbnail(url=member.avatar_url)
 
+
+
+
         await ctx.send(embed=embed)
 
-    elif member.status != discord.Status.offline:
-        embed = discord.Embed(title=f"{get_status(member)} {member.display_name} ",
-                              description=desc, color=member.top_role.color)
-        embed.add_field(name='**Device **', value="PC:  :desktop:  ", inline=False)
-        embed.add_field(name="**Server Level :small_orange_diamond:**", value=f"{get_level(get_member_XP(member))} ",
-                        inline=False)
-        embed.add_field(name="**Server Rank**", value=f"**{get_rank(member)} **", inline=False)
-        embed.add_field(name="**Badges**", value=await get_badges(member, bot), inline=False)
-        embed.add_field(name="**Stats**",value=f"►**__Join date__** : {format_date(member.joined_at)} \n►**__Created date__** : {format_date(member.created_at)} ")
-
-        embed.add_field(name="**Top Role**", value=member.top_role.mention, inline=False)
-        embed.add_field(name="**Activity**", value=get_activity(member=member))
-        embed.set_thumbnail(url=member.avatar_url)
-        await ctx.send(embed=embed)
-
-    elif member.status == discord.Status.offline:
-        embed = discord.Embed(title=f"{get_status(member)} {member.display_name} ",
-                              description=desc, color=member.top_role.color)
-        embed.add_field(name="**Device**", value=":no_entry:  ", inline=False)
-        embed.add_field(name="**Server Level :small_orange_diamond:**", value=f"{get_level(get_member_XP(member))} ",
-                        inline=False)
-        embed.add_field(name="**Server Rank**", value=f"**{get_rank(member)} **", inline=False)
-        embed.add_field(name="**Badges**", value=await get_badges(member, bot), inline=False)
-        embed.add_field(name="**Stats**",value=f"►**__Join date__** : {format_date(member.joined_at)} \n►**__Created date__** : {format_date(member.created_at)} ")
-        embed.add_field(name="**Top Role**", value=member.top_role.mention, inline=False)
-        embed.add_field(name="**Activity**", value=get_activity(member=member), inline=False)
-        embed.set_thumbnail(url=member.avatar_url)
-        await ctx.send(embed=embed)
