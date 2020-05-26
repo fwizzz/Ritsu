@@ -9,4 +9,4 @@
 
 <br> **A multi purpose discord bot that has Moderation commands , Fun commands , Music commands , Music commands and many more!** </br>
 
-<br> I would prefer if you don't run an instance of my bot. Just use this invite link to invite it to your guild : https://discord.com/oauth2/authorize?client_id=577140178791956500&scope=bot&permissions=521661951 
+<br> I would prefer if you don't run an instance of my bot.[ Just click here to invite it to your guild](https://discord.com/oauth2/authorize?client_id=577140178791956500&scope=bot&permissions=521661951)</br>
