@@ -97,7 +97,7 @@ class other(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(hidden = True)
-    async def Jishaku(self,ctx):
+    async def jishaku(self,ctx):
         await ctx.send("who tf is jishaku and why does everybody keep calling him")
 
 
