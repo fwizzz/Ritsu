@@ -176,6 +176,7 @@ async def on_guild_join(guild : discord.Guild):
 
     
 
+"""
 
 @bot.event
 async def on_command_error(ctx,error):
@@ -192,7 +193,7 @@ async def on_command_error(ctx,error):
     else:
         await ctx.send(f"❌|**{error}**")
         
-
+"""
 
 SetupBot(bot)
 

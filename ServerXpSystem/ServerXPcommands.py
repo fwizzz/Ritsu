@@ -3,7 +3,7 @@ from discord.ext import commands
 import pandas as pd
 from ServerXpSystem import ServerXPsystem as SXS
 import numpy as np
-from cogs.embedHandler import get_level,get_rank
+from cogs.embedHandler import *
 import asyncio
 import os
 
@@ -31,7 +31,7 @@ class leveling(commands.Cog):
                 level = get_level(memberRow.level.values[0])
                 embed = discord.Embed(title=f"{member.display_name} rank", description=level)
                 embed.set_thumbnail(url=member.avatar_url)
-                embed.add_field(name="Rank", value=f"**{get_rank(member)}**")
+                embed.add_field(name="Rank", value=f"**{get_rank(get_member_XP(member))}**")
                 await ctx.send(embed=embed)
             else:
                 member = ctx.author
@@ -41,7 +41,7 @@ class leveling(commands.Cog):
                 level = get_level(memberRow.level.values[0])
                 embed = discord.Embed(title=f"{member.display_name} rank", description=level)
                 embed.set_thumbnail(url=member.avatar_url)
-                embed.add_field(name="Rank", value=f"**{get_rank(member)}**")
+                embed.add_field(name="Rank", value=f"**{get_rank(get_member_XP(member))}**")
                 await ctx.send(embed=embed)
 
         except:

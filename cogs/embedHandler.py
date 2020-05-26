@@ -178,7 +178,7 @@ async def get_badges_desc(member: discord.Member, bot):
             stuff += "<:BrillianceLogo:710518070640378021> "
 
         elif str(i) == "hs_bravery":
-            stuff += "<:bravery:710518487390486549>"
+            stuff += "<:bravery:710518487390486549> "
 
         elif str(i) == "early_supporter":
             stuff += "<:earlysupporter:710859759938568212> "
@@ -212,7 +212,7 @@ async def get_badges_desc(member: discord.Member, bot):
 
 async def StatusEmbed(ctx, member : discord.Member, bot):
         embed = discord.Embed(title=f"{get_status(member)} {member.display_name}  {add_bot(member)}",
-                              description=await get_badges_desc(member,bot), color=member.top_role.color)
+                              description=await get_badges_desc(member,bot), color=0x2f3136)
 
         embed.add_field(name="General info",
                         value=f"•  **Join date**      : {format_date(member.joined_at)} "
