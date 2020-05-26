@@ -23,6 +23,8 @@
 
 # LICENSE
 
+[![License AGPL3](https://img.shields.io/github/license/albertopoljak/Licensy?color=red)](LICENSE.md)
+
 This project is licensed under the GNU AGPLv3 License - see the [LICENSE.md](LICENSE.md) file for details
 , for plain english you can check out [tldrlegal](https://tldrlegal.com/license/gnu-affero-general-public-license-v3-(agpl-3.0)).
 
