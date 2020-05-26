@@ -1,12 +1,15 @@
 # Ritsu-Discord-Bot
 
 [![Discord support server](https://img.shields.io/discord/613844667611611332?color=%237289DA&label=Support%20Server&logo=discord)](https://discord.gg/MAJZ3cz)
+[![Invite me!](https://img.shields.io/badge/-Invite%20me-gray?logo=discord)](https://discord.com/oauth2/authorize?client_id=577140178791956500&scope=bot&permissions=52166195)
 [![License AGPL3](https://img.shields.io/github/license/albertopoljak/Licensy?color=red)](LICENSE.md)
 ![Python-Versions](https://img.shields.io/badge/python-3.7-blue?style=flat-square)
 ![Discord.py-Version](https://img.shields.io/badge/discord.py-1.3.3-blue?style=flat-square)
 
 
-<br> **A multi purpose discord bot that has Moderation commands , Fun commands , Music commands , Music commands and many more!** </br>
+<img alt="Ritsu" align="right" src="https://i.imgur.com/DO8gETN.pngg" width=40%>
+
+<br> **A multi purpose discord bot that has Moderation commands , Fun commands , Music commands , Games and many more!** </br>
 
 <br> I would prefer if you don't run an instance of my bot.[ Just click here to invite it to your guild](https://discord.com/oauth2/authorize?client_id=577140178791956500&scope=bot&permissions=521661951)</br>
 
