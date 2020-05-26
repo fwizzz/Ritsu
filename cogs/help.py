@@ -2,6 +2,7 @@ from discord.ext import commands
 import discord
 import asyncio
 import math
+from cogs.utils.constants import bot_avatar
 
 
 class Help(commands.Cog, name="Help"):
@@ -98,7 +99,7 @@ class Help(commands.Cog, name="Help"):
                     title="Ritsu help",
                     timestamp=ctx.message.created_at
                 )
-                embed.set_thumbnail(url=self.client.user.avatar_url)
+                embed.set_thumbnail(url=bot_avatar)
                 embed.add_field(name="**Categories**",value=cats)
 
                 links = "► [GitHub](https://github.com/fwizzz/Ritsu)\n ► [Support Server](https://discord.gg/55ywZKj)"
@@ -201,7 +202,7 @@ class Help(commands.Cog, name="Help"):
                         color=color,
                         timestamp=ctx.message.created_at
                     )
-                    embed.set_thumbnail(url=self.client.user.avatar_url)
+                    embed.set_thumbnail(url=bot_avatar)
                     embed.add_field(name="**Commands**",value=cmds)
 
                     await ctx.send(embed=embed)
@@ -254,7 +255,7 @@ class Help(commands.Cog, name="Help"):
                             color=color,
                             timestamp=ctx.message.created_at
                         )
-                        embed.set_thumbnail(url=self.client.user.avatar_url)
+                        embed.set_thumbnail(url=bot_avatar)
 
                         await ctx.send(embed=embed)
                     else:
