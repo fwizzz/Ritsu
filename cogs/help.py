@@ -105,7 +105,7 @@ _██║  ██║██║   ██║   ███████║╚██�
 ```
 :heavy_check_mark::heavy_check_mark:<a:processing:585955989178810379> **__Links__**
 '''
-                desc += f"\n[`GitHub`](https://github.com/fwizzz/Ritsu) • [`Support Server`](https://discord.gg/55ywZKj) • [`Invite`](https://discord.com/oauth2/authorize?client_id=577140178791956500&scope=bot&permissions=52166195) \n"
+                desc += f"\n[`GitHub`](https://github.com/fwizzz/Ritsu) • [`Support Server`](https://discord.gg/9zSXyE9) • [`Invite`](https://discord.com/oauth2/authorize?client_id=577140178791956500&scope=bot&permissions=52166195) \n"
                 desc += f'\n:heavy_check_mark::heavy_check_mark:<a:processing:585955989178810379> **__Categories__** '
                 embed = discord.Embed(
 
