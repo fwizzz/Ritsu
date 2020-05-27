@@ -45,13 +45,14 @@ def get_data(guildname):
 
 
 def get_member_XP(member):
-    try:
-        data = get_data(member.guild.name)
-        memberRow = data[data.memberID == int(member.id)]
-        points = memberRow.XP.values[0]
-        return points
-    except:
-        return 0
+        try:
+            data = get_data(member.guild.name)
+            memberRow = data[data.memberID == int(member.id)]
+            points = memberRow.XP.values[0]
+            return points
+        except:
+            return 0
+
 
 
 def progress(count, total):
