@@ -26,9 +26,8 @@ class leveling(commands.Cog):
     async def showrank(self,ctx,member: discord.Member=None):
         try:
             if member is not None:
-                data = pd.read_csv(f"ServerXpSystem/{member.guild.name}.csv")
-                memberRow = data[data.memberID == int(member.id)]
-                level = get_level(memberRow.level.values[0])
+
+                level = get_level(get_member_XP(member))
                 embed = discord.Embed(title=f"{member.display_name} rank", description=level)
                 embed.set_thumbnail(url=member.avatar_url)
                 embed.add_field(name="Rank", value=f"**{get_rank(get_member_XP(member))}**")
@@ -36,9 +35,7 @@ class leveling(commands.Cog):
             else:
                 member = ctx.author
 
-                data = pd.read_csv(f"ServerXpSystem/{member.guild.name}.csv")
-                memberRow = data[data.memberID == int(member.id)]
-                level = get_level(memberRow.level.values[0])
+                level = get_level(get_member_XP(member))
                 embed = discord.Embed(title=f"{member.display_name} rank", description=level)
                 embed.set_thumbnail(url=member.avatar_url)
                 embed.add_field(name="Rank", value=f"**{get_rank(get_member_XP(member))}**")
