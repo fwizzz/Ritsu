@@ -116,50 +116,7 @@ def get_device(member : discord.Member):
 
 
 
-async def get_badges(member: discord.Member, bot):
-    val = (await bot.http.get_user(member.id))['public_flags']
-    badges = [*UserFlags(val)]
-    stuff = ""
-    for i in list(badges):
-        if str(i) == "hs_balance":
-            i = "<:hsBalance:710512831463686235> **HypeSquad Balance** "
-        elif str(i) == "hs_brilliance":
-            i = "<:BrillianceLogo:710518070640378021> **HypeSquad Brilliance**"
-        elif str(i) == "hs_bravery":
-            i = "<:bravery:710518487390486549> **HypeSquad Bravery**"
 
-        if str(i) == "early_supporter":
-            i = "<:earlysupporter:710859759938568212> **Early Supporter**"
-
-        if str(i) == "bug_hunter_lvl1":
-            i = "<:Bughunter:710861051322957905> **Bug Hunter lvl 1**"
-
-        if str(i) == "bug_hunter_lvl2":
-            i = "<:bug2:710864460612632596> **Bug Hunter lvl 2**"
-
-        if str(i) == "verified_dev":
-            i = "<:dev:710864395588206612> **Verified Bot Developer**"
-        if str(i) == "hs_events":
-            i = "<:events:710864377791643690> **HypeSquad Events**"
-
-        if str(i) == "discord_partner":
-            i = "<:DiscordPartner:710860869252415630> **Discord Partner**"
-
-        stuff += f"\n {str(i)}"
-
-    if get_content_type(member.avatar_url) == "image/gif":
-        i = "<:nitro:710866062924709938> **Nitro Subscriber**"
-        print("nitro subscriber")
-        stuff += f"\n {str(i)}"
-
-    if member.premium_since is not None:
-        i = "<:booster:711878282965942333> **Server Booster**"
-        stuff += f"\n {str(i)}"
-
-
-    else:
-        print("no",get_content_type(member.avatar_url))
-    return stuff
 
 def add_bot(member):
     if member.bot:
@@ -201,7 +158,7 @@ async def get_badges_desc(member: discord.Member, bot):
             pass
 
     if get_content_type(member.avatar_url) == "image/gif":
-        stuff += "<:nitro:710866062924709938>"
+        stuff += "<:nitro:710866062924709938> "
 
 
     if member.premium_since is not None:
