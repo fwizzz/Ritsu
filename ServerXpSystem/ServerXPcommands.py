@@ -31,7 +31,7 @@ class leveling(commands.Cog):
 
                 level = get_level(get_member_XP(member))
                 embed = discord.Embed(title=f"{member.display_name} rank", description=level
-                                      ,color=0xDC322F)
+                                      ,color=0x2f3136)
                 embed.set_thumbnail(url=member.avatar_url)
                 embed.add_field(name="Rank", value=f"**{get_rank(member)}**")
                 await ctx.send(embed=embed)
@@ -41,7 +41,7 @@ class leveling(commands.Cog):
                 level = get_level(get_member_XP(member))
                 embed = discord.Embed(title=f"{member.display_name} rank",
                                       description=level,
-                                      color=0xDC322F)
+                                      color=0x2f3136)
                 embed.set_thumbnail(url=member.avatar_url)
                 embed.add_field(name="Rank", value=f"**{get_rank(member)}**")
                 await ctx.send(embed=embed)
