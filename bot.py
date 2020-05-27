@@ -8,10 +8,9 @@ from ServerXpSystem import ServerXPsystem as SXS
 
 pd.options.mode.chained_assignment = None
 
-async def get_pre(bot, message):
-  return ['rt ','<@!577140178791956500> ']
 
-bot = commands.Bot(command_prefix=('dev ','<@!577140178791956500> ') )
+
+bot = commands.Bot(command_prefix=('rt ','<@!577140178791956500> ') )
 game = discord.Game(name='rt help')
 
 reddit_bot = praw.Reddit(client_id=reddit_client_id,
