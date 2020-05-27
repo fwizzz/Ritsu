@@ -24,8 +24,9 @@ class Help(commands.Cog, name="Help"):
 
         if cog is None:
             desc = ""
-            cats = ""
+            cats = []
             cogs = []
+            subtext = []
             page = 0
 
             for cog in self.client.cogs:
@@ -62,49 +63,65 @@ class Help(commands.Cog, name="Help"):
                                 cmdname_modified = f"`{command.name}`  "
                                 shown_commands.append(cmdname_modified)
 
+
+
+
                         cmds = "".join(shown_commands)
+                        subtext.append(f"`rt help {name}`")
 
                         if name == "moderation":
-                            cats += f"► **{name}**    <a:BearCop:711584228659429458> \n "
+                            cats.append(f"**{name}**    <a:BearCop:711584228659429458>")
 
                         elif name == "fun":
-                            cats += f"► **{name}** <:haha:613185229653409883>  \n"
+                            cats.append(f"**{name}** <:haha:613185229653409883>")
                         elif name == "music":
-                            cats += f"► **{name}** <:FeelsBeatsMan:597591202614738947>   \n "
+                            cats.append(f"**{name}** <:FeelsBeatsMan:597591202614738947>")
 
                         elif name == "leveling":
-                            cats += f"► **{name}**  <a:kat:710821703286259782>   \n"
+                            cats.append(f"**{name}**  <a:kat:710821703286259782>")
 
                         elif name == "other":
-                            cats += f"► **{name}**  <:rooEZSip:596577108675788800>  \n"
+                            cats.append(f"**{name}**  <:rooEZSip:596577108675788800>")
 
                         elif name == "games":
-                            cats += f"► **{name}** :video_game:  \n"
+                            cats.append(f"**{name}** :video_game:")
 
                         elif name == "reddit":
-                            cats += f"► **{name}** <:reddit:711990234736361566>\n"
-
-
-
-
+                            cats.append(f"**{name}** <:reddit:711990234736361566>")
 
 
                         #desc += "**__" + name + "__** \n"
 
                 #desc += '```py\n\n"<> denotes an argument/parameter of a command"\n@ DO NOT ACTUALLY USE TYPE <> WHEN TYPING COMMANDS \n``` \n'
-                desc += f"Type `rt help <category>` to get help on a category. \n "
+                desc += f'''
+```diff
+
+-██████╗ ██╗████████╗███████╗██╗   ██╗
+-██╔══██╗██║╚══██╔══╝██╔════╝██║   ██║
+-██████╔╝██║   ██║   ███████╗██║   ██║
+_██╔══██╗██║   ██║   ╚════██║██║   ██║
+_██║  ██║██║   ██║   ███████║╚██████╔╝
+ ╚═╝  ╚═╝╚═╝   ╚═╝   ╚══════╝ ╚═════╝                                        
+```
+:heavy_check_mark::heavy_check_mark:<a:processing:585955989178810379> **__Links__**
+'''
+                desc += f"\n[`GitHub`](https://github.com/fwizzz/Ritsu) • [`Support Server`](https://discord.gg/55ywZKj) • [`Invite`](https://discord.com/oauth2/authorize?client_id=577140178791956500&scope=bot&permissions=52166195) \n"
+                desc += f'\n:heavy_check_mark::heavy_check_mark:<a:processing:585955989178810379> **__Categories__** '
                 embed = discord.Embed(
+
                     description=desc,
-                    color = color,
-                    title="Ritsu help",
+                    color = 0xDC322F, #ctx.guild.get_member(577140178791956500).top_role.color,
                     timestamp=ctx.message.created_at
                 )
                 embed.set_thumbnail(url=bot_avatar)
-                embed.add_field(name="**Categories**",value=cats)
 
-                links = "► [GitHub](https://github.com/fwizzz/Ritsu)\n ► [Support Server](https://discord.gg/55ywZKj)"
+                for cat in cats:
+
+                  embed.add_field(name=cat,value=subtext[cats.index(cat)])
+
+                #links = "► [GitHub](https://github.com/fwizzz/Ritsu)\n ► [Support Server](https://discord.gg/55ywZKj)"
                 owner = self.client.get_user(247292930346319872)
-                embed.add_field(name= "**Links**",value = links)
+                #embed.add_field(name= "**Links**",value = links)
                 embed.set_footer(text = f"Created by {str(owner)}",icon_url=owner.avatar_url)
                 try:
                     await msg.edit(embed=embed)
@@ -169,6 +186,8 @@ class Help(commands.Cog, name="Help"):
 
                 if len(shown_commands) > 0:
                     cmds = "\n".join(shown_commands)
+
+
 
                     if cogg.qualified_name == "moderation":
                         cogname = f"**{cogg.qualified_name}**    <a:BearCop:711584228659429458>  \n"
