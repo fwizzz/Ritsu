@@ -165,18 +165,14 @@ async def on_guild_join(guild : discord.Guild):
     embed.add_field(name="**Links**",value = f"**► [Support Server](https://discord.gg/EVN6qcG)** \n**► [Github](https://github/fwizzz/nezuko)**\n**► [Invite link](https://discord.com/oauth2/authorize?client_id=577140178791956500&scope=bot&permissions=521661951)** ")
     embed.set_thumbnail(url = ritsu.avatar_url)
 
-    m = 0
-    for channel in guild.channels:
-        if m ==0:
-            try:
-                await channel.send(embed=embed)
-                m +=1
-            except:
-                pass
+    try:
+        await guild.system_channel.send(embed = embed)
+    except:
+        pass
 
     await logchannel.send(f"The bot has been added to **{guild.name}** , We've reached our **{len(bot.guilds)}th** server! <:PogChamp:528969510519046184> :champagne_glass: ")
 
-    
+
 
 
 @bot.event

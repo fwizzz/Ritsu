@@ -7,11 +7,7 @@ from cogs.utils.flags import UserFlags
 import requests
 
 
-def get_roles(rolelist):
-    stuff = ""
-    for i in rolelist:
-        stuff += i.mention
-    return stuff
+
 
 
 def get_activity(member):
