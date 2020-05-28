@@ -16,7 +16,7 @@ class Help(commands.Cog, name="Help"):
     async def help(self, ctx, cog=None):
         """Shows help message."""
 
-        color = ctx.guild.get_member(577140178791956500).top_role.color
+        color = 0xDC322F
 
         nextbtn = "⏩"
         prevbtn = "⏪"
