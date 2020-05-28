@@ -67,27 +67,27 @@ class Help(commands.Cog, name="Help"):
 
 
                         cmds = "".join(shown_commands)
-                        subtext.append(f"`rt help {name}`")
+                        subtext.append(cmds)
 
                         if name == "moderation":
-                            cats.append(f"**{name}**    <a:BearCop:711584228659429458>")
+                            cats.append(f"<a:BearCop:711584228659429458> **{name}**")
 
                         elif name == "fun":
-                            cats.append(f"**{name}** <:haha:613185229653409883>")
+                            cats.append(f"<:haha:613185229653409883> **{name}**")
                         elif name == "music":
-                            cats.append(f"**{name}** <:FeelsBeatsMan:597591202614738947>")
+                            cats.append(f"<:FeelsBeatsMan:597591202614738947> **{name}** ")
 
                         elif name == "leveling":
-                            cats.append(f"**{name}**  <a:kat:710821703286259782>")
+                            cats.append(f"<a:kat:710821703286259782> **{name}**")
 
                         elif name == "other":
-                            cats.append(f"**{name}**  <:rooEZSip:596577108675788800>")
+                            cats.append(f"<:rooEZSip:596577108675788800> **{name}**")
 
                         elif name == "games":
-                            cats.append(f"**{name}** :video_game:")
+                            cats.append(f":video_game: **{name}**")
 
                         elif name == "reddit":
-                            cats.append(f"**{name}** <:reddit:711990234736361566>")
+                            cats.append(f"<:reddit:711990234736361566> **{name}**")
 
 
                         #desc += "**__" + name + "__** \n"
@@ -101,12 +101,15 @@ class Help(commands.Cog, name="Help"):
 -██████╔╝██║   ██║   ███████╗██║   ██║
 _██╔══██╗██║   ██║   ╚════██║██║   ██║
 _██║  ██║██║   ██║   ███████║╚██████╔╝
- ╚═╝  ╚═╝╚═╝   ╚═╝   ╚══════╝ ╚═════╝                                        
+ ╚═╝  ╚═╝╚═╝   ╚═╝   ╚══════╝ ╚═════╝
+
+
 ```
 :heavy_check_mark::heavy_check_mark:<a:processing:585955989178810379> **__Links__**
 '''
                 desc += f"\n[`GitHub`](https://github.com/fwizzz/Ritsu) • [`Support Server`](https://discord.gg/9zSXyE9) • [`Invite`](https://discord.com/oauth2/authorize?client_id=577140178791956500&scope=bot&permissions=52166195) \n"
                 desc += f'\n:heavy_check_mark::heavy_check_mark:<a:processing:585955989178810379> **__Categories__** '
+                desc += f'\n\n• Use `rt help <command>` for more help ; example : `rt help slap`'
                 embed = discord.Embed(
 
                     description=desc,
@@ -119,18 +122,14 @@ _██║  ██║██║   ██║   ███████║╚██�
 
                   embed.add_field(name=cat,value=subtext[cats.index(cat)])
 
-                #links = "► [GitHub](https://github.com/fwizzz/Ritsu)\n ► [Support Server](https://discord.gg/55ywZKj)"
+                embed.add_field(name=":heavy_check_mark: ",value="_ _")
+                embed.add_field(name=":heavy_check_mark: ", value="_ _")
                 owner = self.client.get_user(247292930346319872)
-                #embed.add_field(name= "**Links**",value = links)
                 embed.set_footer(text = f"Created by {str(owner)}",icon_url=owner.avatar_url)
                 try:
                     await msg.edit(embed=embed)
                 except:
                     msg = await ctx.send(embed=embed)
-
-
-
-
 
                 def check(r, u):
                     return (u.id == ctx.author.id) and ((r.message.id == msg.id) and r.emoji in valids)
