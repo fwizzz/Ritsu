@@ -72,6 +72,5 @@ class leveling(commands.Cog):
         await msg.edit(content=f"<:verified:610713784268357632> | **{member.guild.name}** levels reset")
 
 
-
 def setup(bot):
     bot.add_cog(leveling(bot))
