@@ -43,4 +43,4 @@ class BotOwner(commands.Cog, name="BotOwner"):
 
 
 def setup(bot):
-    bot.add_cog(Help(bot))
+    bot.add_cog(BotOwner(bot))
