@@ -10,7 +10,7 @@ pd.options.mode.chained_assignment = None
 
 
 
-bot = commands.Bot(command_prefix=('dev ','<@!577140178791956500> ') )
+bot = commands.Bot(command_prefix=('rt ','<@!577140178791956500> ') )
 game = discord.Game(name='rt help')
 
 reddit_bot = praw.Reddit(client_id=reddit_client_id,
@@ -153,7 +153,20 @@ async def on_guild_join(guild : discord.Guild):
 
 
 
+@bot.event
+async def on_command_error(ctx,error):
 
+    if isinstance(error,commands.MissingRequiredArgument):
+        await ctx.send(f"❌| **{error}** \n__for more help on that command,use__ **rt help {ctx.command.name}**")
+
+    elif isinstance(error,commands.BotMissingPermissions):
+        await ctx.send("❌| **I'm missing permissions to execute that command**")
+
+    elif isinstance(error,commands.CommandNotFound):
+        pass
+
+    else:
+        await ctx.send(f"❌|**{error}**")
 
 SetupBot(bot)
 
