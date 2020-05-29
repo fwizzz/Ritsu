@@ -85,7 +85,8 @@ def get_rank(member: discord.Member):
 
 
     except:
-        return "not found"
+            return "not found"
+
 
 
 def format_date(join_date: datetime.datetime):
