@@ -7,7 +7,7 @@
 ![Discord.py-Version](https://img.shields.io/badge/discord.py-1.3.3-blue?style=flat-square)
 
 
-<img alt="Ritsu" align="right" src="https://i.imgur.com/DO8gETN.pngg" width=40%>
+<img alt="Ritsu" align="right" src="https://i.imgur.com/RS8cycN.png" width=40%>
 
 <br> **A multi purpose discord bot that has Moderation commands , Fun commands , Music commands , Games and many more!** </br>
 

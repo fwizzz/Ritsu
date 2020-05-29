@@ -11,7 +11,7 @@ class BotOwner(commands.Cog, name="BotOwner"):
     def __init__(self, bot):
         self.client = bot
 
-    async def is_owner(ctx):
+    async def is_owner(self,ctx):
         return ctx.author.id == 247292930346319872
 
     @commands.command(hidden=True)
