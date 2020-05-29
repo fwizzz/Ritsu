@@ -1,14 +1,19 @@
 import numpy as np
 from cogs.XOgame.constants import *
 import os
+import discord
 
 class TicTacToe():
-    def __init__(self,player1,player2,emptybox = "☐",x = "❌",o = "⚪"):
+    def __init__(self,guild : discord.Guild,player1,player2,emptybox = "☐",x = "❌",o = "⚪" ):
         self.player1 = player1
         self.player2 = player2
         self.emptybox = emptybox
         self.x = x
         self.o = o
+        self.guild = guild
+        self.file_id = f"{self.guild.name}{self.player1}{self.player2}"
+
+
 
     def create_grid(self):
         grid = np.zeros((3,3))
@@ -16,14 +21,14 @@ class TicTacToe():
 
     def delete_grid(self):
         try:
-          os.remove("gridfile.npy")
+          os.remove(f"{self.guild.name}{self.player1}{self.player2}gridfile.npy")
         except:
             pass
 
     def new_grid(self):
         self.delete_grid()
         grid = self.create_grid()
-        np.save("gridfile",grid)
+        np.save(f"{self.guild.name}{self.player1}{self.player2}gridfile",grid)
         
 
     def fill_x(self,position):
@@ -46,20 +51,20 @@ class TicTacToe():
         if position == 9:
             position = nine
         try:
-            np.load("gridfile.npy")
+            np.load(f"{self.guild.name}{self.player1}{self.player2}gridfile.npy")
         except FileNotFoundError:
             print("grid not found .... creating new one")
             grid = self.create_grid()
-            np.save("gridfile",grid)
+            np.save(f"{self.guild.name}{self.player1}{self.player2}gridfile",grid)
 
-        grid = np.load("gridfile.npy")
+        grid = np.load(f"{self.guild.name}{self.player1}{self.player2}gridfile.npy")
         if grid[position] == 0:
             grid[position] = 1
         else:
             raise Exception("That box has already been filled")
 
 
-        np.save("gridfile",grid)
+        np.save(f"{self.guild.name}{self.player1}{self.player2}gridfile",grid)
 
         return grid
 
@@ -83,13 +88,13 @@ class TicTacToe():
         if position == 9:
             position = nine
         try:
-            np.load("gridfile.npy")
+            np.load(f"{self.file_id}gridfile.npy")
         except FileNotFoundError:
             print("grid not found .... creating new one")
             grid = self.create_grid()
-            np.save("gridfile",grid)
+            np.save(f"{self.file_id}gridfile",grid)
 
-        grid = np.load("gridfile.npy")
+        grid = np.load(f"{self.file_id}gridfile.npy")
 
         if grid[position] == 0:
             grid[position] = 2
@@ -102,7 +107,7 @@ class TicTacToe():
 
 
 
-        np.save("gridfile",grid)
+        np.save(f"{self.file_id}gridfile",grid)
 
         return grid
 
@@ -177,7 +182,7 @@ class TicTacToe():
         return cleanedrows
 
     def ended(self):
-        grid = np.load("gridfile.npy")
+        grid = np.load(f"{self.guild.name}{self.player1}{self.player2}gridfile.npy")
         check = 0
 
         for row in grid:
@@ -273,7 +278,7 @@ class TicTacToe():
 
 
     def is_won(self):
-        grid = np.load("gridfile.npy")
+        grid = np.load(f"{self.guild.name}{self.player1}{self.player2}gridfile.npy")
 
         if self.row_completed(grid):
             return True
@@ -286,7 +291,7 @@ class TicTacToe():
 
     def show_array(self):
         try:
-            grid = np.load("gridfile.npy")
+            grid = np.load(f"{self.guild.name}{self.player1}{self.player2}gridfile.npy")
             return grid
         except:
             pass
@@ -294,7 +299,7 @@ class TicTacToe():
     def empty_boxes(self):
 
         try:
-            grid = np.load("gridfile.npy")
+            grid = np.load(f"{self.file_id}gridfile.npy")
             index_list = np.where(grid.flatten() == 0.)
             final_val = ""
 
@@ -308,33 +313,26 @@ class TicTacToe():
         except:
             pass
 
-
-
-
-
-
-
     def show_grid(self):
         try:
-            np.load("gridfile.npy")
+            np.load(f"{self.file_id}gridfile.npy")
         except FileNotFoundError:
             grid = self.create_grid()
-            np.save("gridfile",grid)
+            np.save("gridfile", grid)
 
-        grid = np.load("gridfile.npy")
+        grid = np.load(f"{self.file_id}gridfile.npy")
 
-        row1 = grid[0,:]
-        row2 = grid[1,:]
-        row3 = grid[2,:]
+        row1 = grid[0, :]
+        row2 = grid[1, :]
+        row3 = grid[2, :]
 
-
-        cleanedrows = self.clean_rows(row1,row2,row3)
+        cleanedrows = self.clean_rows(row1, row2, row3)
 
         return cleanedrows
 
-def deleteGame():
+def deleteGame(game : TicTacToe):
     try:
-       os.remove("gridfile.npy")
+       os.remove(f"{game.file_id}gridfile.npy")
     except:
         pass
 

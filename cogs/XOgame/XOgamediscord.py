@@ -4,16 +4,16 @@ from cogs.XOgame.utils import TicTacToe , deleteGame , toEmoji
 import asyncio
 
 async def initXOgame(ctx,player1 : discord.Member,player2 : discord.Member):
-    game = TicTacToe(player1.display_name,player2.display_name)
+    game = TicTacToe(ctx.guild,player1.display_name,player2.display_name)
     game.new_grid()
 
 
-async def Terminate(ctx):
-    deleteGame()
+async def Terminate(ctx,game :  TicTacToe):
+    deleteGame(game)
     await ctx.send("Game terminated")
 
 async def StartGame(ctx,bot,player1 : discord.Member,player2 : discord.Member):
-    game = TicTacToe(player1.display_name, player2.display_name,o = "<:circle:711135987606093905>")
+    game = TicTacToe(ctx.guild,player1.display_name, player2.display_name,o = "<:circle:711135987606093905>")
     await ctx.send(f"{game.show_grid()}")
     taken_list = []
 
@@ -36,9 +36,11 @@ async def StartGame(ctx,bot,player1 : discord.Member,player2 : discord.Member):
 
             else:
                 await ctx.send("its a draw :crossed_swords: ")
+                await Terminate(game)
                 break
         elif game.is_won():
             await ctx.send(f"**{player2.mention}** has won!")
+            await Terminate(game)
             break
 
         if not game.is_won():
@@ -59,9 +61,11 @@ async def StartGame(ctx,bot,player1 : discord.Member,player2 : discord.Member):
 
             else:
                 await ctx.send("its a draw :crossed_swords: ")
+                await Terminate(game)
                 break
         elif game.is_won():
             await ctx.send(f"**{player1.mention}** Has won !")
+            await Terminate(game)
             break
 
 
