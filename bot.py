@@ -28,6 +28,7 @@ def SetupBot(bot):
     bot.load_extension("ServerXpSystem.ServerXPcommands")
     bot.remove_command("help")
     bot.load_extension("cogs.help")
+    bot.load_extension("cogs.bot owner")
     bot.load_extension("cogs.other")
 
     bot.run(discord_bot_token)
@@ -134,21 +135,7 @@ async def show_cogs(ctx):
         text += f"\n {cog.qualified_name}"
     await ctx.send(text)
 
-@bot.command(hidden = True)
-async def show_guilds(ctx):
-    text  = ""
 
-    for i in bot.guilds:
-        text += f"\n {i.name}"
-    await ctx.send(text)
-
-
-@bot.command(hidden=True)
-async def leave_guild(ctx,*,guildname):
-    for guild in bot.guilds:
-        if guild.name == guildname:
-           await ctx.message.add_reaction("<:greenTick:596576670815879169>")
-           await guild.leave()
 
 
 

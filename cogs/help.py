@@ -12,7 +12,7 @@ class Help(commands.Cog, name="Help"):
         self.client = client
 
 
-    @commands.command(aliases=['hlp','commands'], hidden=True)
+    @commands.command(aliases=['commands'], hidden=True)
     async def help(self, ctx, cog=None):
         """Shows help message."""
 
