@@ -15,7 +15,7 @@ class BotOwner(commands.Cog, name="BotOwner"):
         return ctx.author.id == 247292930346319872
 
     @commands.command(hidden=True)
-    @commands.check(is_owner())
+    @commands.check(is_owner)
     async def show_guilds(self,ctx):
         text = ""
 
@@ -24,7 +24,7 @@ class BotOwner(commands.Cog, name="BotOwner"):
         await ctx.send(text)
 
     @commands.command(hidden=True)
-    @commands.check(is_owner())
+    @commands.check(is_owner)
     async def leave_guild(self,ctx, *, guildname):
         for guild in self.bot.guilds:
             if guild.name == guildname:
@@ -32,7 +32,7 @@ class BotOwner(commands.Cog, name="BotOwner"):
                 await guild.leave()
 
     @commands.command(hidden=True)
-    @commands.check(is_owner())
+    @commands.check(is_owner)
     async def show_cogs(self,ctx):
         text = ""
 
