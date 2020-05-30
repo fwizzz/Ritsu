@@ -5,13 +5,13 @@ import math
 from cogs.utils.constants import bot_avatar
 
 
-class BotOwner(commands.Cog, name="BotOwner"):
+class BotOwner(commands.Cog):
     """Shows help for bot"""
 
     def __init__(self, bot):
-        self.client = bot
+        self.bot = bot
 
-    async def is_owner(self,ctx):
+    async def is_owner(ctx):
         return ctx.author.id == 247292930346319872
 
     @commands.command(hidden=True)

@@ -36,11 +36,11 @@ async def StartGame(ctx,bot,player1 : discord.Member,player2 : discord.Member):
 
             else:
                 await ctx.send("its a draw :crossed_swords: ")
-                await Terminate(game)
+                await Terminate(ctx,game)
                 break
         elif game.is_won():
             await ctx.send(f"**{player2.mention}** has won!")
-            await Terminate(game)
+            await Terminate(ctx,game)
             break
 
         if not game.is_won():
@@ -61,11 +61,11 @@ async def StartGame(ctx,bot,player1 : discord.Member,player2 : discord.Member):
 
             else:
                 await ctx.send("its a draw :crossed_swords: ")
-                await Terminate(game)
+                await Terminate(ctx,game)
                 break
         elif game.is_won():
             await ctx.send(f"**{player1.mention}** Has won !")
-            await Terminate(game)
+            await Terminate(ctx,game)
             break
 
 
