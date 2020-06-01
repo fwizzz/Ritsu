@@ -5,8 +5,8 @@ from cogs.utils.processing import mapnum
 import datetime
 from cogs.utils.flags import UserFlags
 import requests
-
-
+from cogs.utils.constants import reddit_icon
+import praw
 
 
 
@@ -200,3 +200,18 @@ async def StatusEmbed(ctx, member : discord.Member, bot):
 
         await ctx.send(embed=embed)
 
+async def reddit_embed(subreddit,randompost : praw.Reddit.submission,color):
+    embed = discord.Embed(title=randompost.title,
+                          url=randompost.url,
+                          description=f"[r/{subreddit}](https://www.reddit.com/r/{subreddit}/)",
+                          colour=color)
+    embed.set_image(url=randompost.url)
+    embed.set_footer(text="Reddit",
+                     icon_url=reddit_icon)
+
+    embed.add_field(name="<:reddit_updoot:684067800066949180> Upvotes ", value=randompost.score)
+    embed.add_field(name="💬 Comments ", value=len(randompost.comments))
+    embed.set_author(name=f"u/{randompost.author.name}", icon_url=randompost.author.icon_img,
+                     url=f"https://www.reddit.com/user/{randompost.author.name}")
+
+    return embed

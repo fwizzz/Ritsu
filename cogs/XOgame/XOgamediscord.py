@@ -26,7 +26,13 @@ async def StartGame(ctx,bot,player1 : discord.Member,player2 : discord.Member):
                 def check(m):
                     return m.content in game.empty_boxes()  and m.author == player1
 
-                msg = await bot.wait_for('message', check=check,timeout=20)
+                try:
+                   msg = await bot.wait_for('message', check=check,timeout=30)
+
+                except asyncio.TimeoutError:
+                    await ctx.send("❌|**You took too long to respond**")
+                    await Terminate(ctx,game)
+                    break
                 try:
                     game.fill_x(int(msg.content))
                     taken_list.append(int(msg.content))
@@ -50,8 +56,12 @@ async def StartGame(ctx,bot,player1 : discord.Member,player2 : discord.Member):
 
                 def check(m):
                     return m.content in game.empty_boxes() and m.author == player2
-
-                msg = await bot.wait_for('message', check=check,timeout=20)
+                try:
+                    msg = await bot.wait_for('message', check=check,timeout=20)
+                except asyncio.TimeoutError:
+                    await ctx.send("❌|**You took too long to respond**")
+                    await Terminate(ctx, game)
+                    break
 
                 try:
                   game.fill_o(int(msg.content))

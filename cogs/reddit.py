@@ -5,6 +5,12 @@ import random
 from setup import reddit_client_id
 from setup import reddit_client_secret
 from setup import reddit_username
+from cogs.utils.constants import reddit_icon
+from cogs.embedHandler import reddit_embed
+import yarl
+import re
+import io
+
 
 reddit_bot = praw.Reddit(client_id=reddit_client_id,
                       client_secret=reddit_client_secret,
@@ -13,20 +19,24 @@ reddit_bot = praw.Reddit(client_id=reddit_client_id,
 
 color = discord.Color.orange()
 
+
 class reddit(commands.Cog):
 
     """This category includes Commands relating to reddit posts"""
+
+
+
     @commands.command()
     async def meme(self, ctx):
-        subreddit = reddit_bot.subreddit('memes')
+        sublist = ["memes","dankmemes","meme","dankmeme"]
+        subname = random.choice(sublist)
+        subreddit = reddit_bot.subreddit(subname)
         hotposts = subreddit.hot(limit=100)
         postlist = list(hotposts)
         randompost = random.choice(postlist)
-        embed = discord.Embed(title=randompost.title,
-                              description=f':thumbsup: {randompost.score} \n \n :speech_balloon:{len(randompost.comments)} ',
-                              url=randompost.url, colour=0x3498d)
-        embed.set_image(url=randompost.url)
+        embed = await reddit_embed(subreddit,randompost,color)
         await ctx.send(embed=embed)
+
 
     @commands.command(aliases = ["new"])
     async def newpost(self, ctx, subreddit_name):
@@ -45,15 +55,9 @@ class reddit(commands.Cog):
                     await ctx.send(randompost.title)
                     await ctx.send(randompost.url)
                 else:
-                    embed = discord.Embed(title=randompost.title,
-                                          url=randompost.url,
-                                          colour=color)
-                    embed.set_image(url=randompost.url)
-                    embed.set_footer(text="Reddit",icon_url="https://lh3.googleusercontent.com/proxy/WSALMFr5sh0W6ISOCIE05dGkMWFr07YltgfykxUx-6stycRoLB_LRG50DrdTUwPmVOrNLNDEug6gThwbMYMXDRGpiQCBocwxFJ5VonhzaLHJ44qxruE")
-                    embed.add_field(name="<:reddit_updoot:684067800066949180> upvotes ", value=randompost.score)
-                    embed.add_field(name="💬 comments ", value=len(randompost.comments))
-
+                    embed = await reddit_embed(subreddit,randompost,color)
                     await ctx.send(embed=embed)
+
             else:
                 await ctx.send(
                     ":police_officer: **Stop right there** :oncoming_police_car:  , **NSFW** commands can only be used in NSFW channels")
@@ -65,16 +69,10 @@ class reddit(commands.Cog):
                 await ctx.send(randompost.title)
                 await ctx.send(randompost.url)
             else:
-                embed = discord.Embed(title=randompost.title,
-                                      url=randompost.url,
-                                      colour=0x3498db)
-                embed.set_image(url=randompost.url)
-                embed.add_field(name="<:reddit_updoot:684067800066949180> upvotes ", value=randompost.score)
-                embed.set_footer(text="Reddit",
-                                 icon_url="https://lh3.googleusercontent.com/proxy/WSALMFr5sh0W6ISOCIE05dGkMWFr07YltgfykxUx-6stycRoLB_LRG50DrdTUwPmVOrNLNDEug6gThwbMYMXDRGpiQCBocwxFJ5VonhzaLHJ44qxruE")
-                embed.add_field(name="💬 comments ", value=len(randompost.comments))
-
+                embed = await reddit_embed(subreddit,randompost,color)
                 await ctx.send(embed=embed)
+
+            await ctx.send(embed=embed)
 
 
 
@@ -97,14 +95,7 @@ class reddit(commands.Cog):
                     await ctx.send(randompost.url)
 
                 else:
-                    embed = discord.Embed(title=randompost.title,
-                                          url=randompost.url,
-                                          colour=color)
-                    embed.set_image(url=randompost.url)
-                    embed.add_field(name="<:reddit_updoot:684067800066949180> upvotes ", value=randompost.score)
-                    embed.set_footer(text="Reddit",
-                                     icon_url="https://lh3.googleusercontent.com/proxy/WSALMFr5sh0W6ISOCIE05dGkMWFr07YltgfykxUx-6stycRoLB_LRG50DrdTUwPmVOrNLNDEug6gThwbMYMXDRGpiQCBocwxFJ5VonhzaLHJ44qxruE")
-                    embed.add_field(name=" 💬 comments", value=len(randompost.comments))
+                    embed = await reddit_embed(subreddit,randompost,color)
 
                     await ctx.send(embed=embed)
             else:
@@ -118,13 +109,7 @@ class reddit(commands.Cog):
                 await ctx.send(randompost.url)
 
             else:
-                embed = discord.Embed(title=randompost.title,
-                                      url=randompost.url,
-                                      colour=color)
-                embed.set_image(url=randompost.url)
-                embed.set_footer(text="Reddit",icon_url="https://lh3.googleusercontent.com/proxy/WSALMFr5sh0W6ISOCIE05dGkMWFr07YltgfykxUx-6stycRoLB_LRG50DrdTUwPmVOrNLNDEug6gThwbMYMXDRGpiQCBocwxFJ5VonhzaLHJ44qxruE")
-                embed.add_field(name="<:reddit_updoot:684067800066949180> upvotes ", value=randompost.score)
-                embed.add_field(name="💬 comments ", value=len(randompost.comments))
+                embed = await reddit_embed(subreddit,randompost,color)
 
                 await ctx.send(embed=embed)
 
@@ -147,15 +132,6 @@ class reddit(commands.Cog):
 
 
 
-    @commands.command()
-    async def detectreddit(self, ctx,url):
-            post = praw.models.Submission(reddit_bot,url = url)
-
-            embed = discord.Embed(title=post.title,
-                          description=f':thumbsup: {post.score} \n \n :speech_balloon: {len(post.comments)} ',
-                          url=post.url, colour=0x3498d)
-            embed.set_image(url=post.url)
-            await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(reddit(bot))

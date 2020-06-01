@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from cogs.XOgame.XOgamediscord import initXOgame , Terminate , StartGame
+from discord.ext.commands.cooldowns import BucketType
 from cogs.XOgame.utils import TicTacToe , toEmoji
 class games(commands.Cog):
 
@@ -10,6 +11,7 @@ class games(commands.Cog):
         self.bot= bot
 
     @commands.command(aliases = ["ttt","TTT","tictactoe","TicTacToe"])
+    @commands.cooldown(1, 180,BucketType.default)
     async def Tictactoe(self,ctx,member:discord.Member):
 
         """**Tic-tac-toe** (American English), **noughts and crosses** (British English), or Xs and Os is a game for two players, X and O, who take turns marking the spaces in a 3×3 grid. The player who succeeds in placing three of their marks in a horizontal, vertical, or diagonal row is the winner. \n \n"""
