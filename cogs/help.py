@@ -70,7 +70,7 @@ class Help(commands.Cog, name="Help"):
                         subtext.append(cmds)
 
                         if name == "moderation":
-                            cats.append(f"<a:BearCop:711584228659429458> **{name}**")
+                            cats.append(f"<:rooCop:596577110982918146> **{name}**")
 
                         elif name == "fun":
                             cats.append(f"<:haha:613185229653409883> **{name}**")
@@ -78,7 +78,7 @@ class Help(commands.Cog, name="Help"):
                             cats.append(f"<:FeelsBeatsMan:597591202614738947> **{name}** ")
 
                         elif name == "leveling":
-                            cats.append(f"<a:kat:710821703286259782> **{name}**")
+                            cats.append(f"<:vv:597590298964656169> **{name}**")
 
                         elif name == "other":
                             cats.append(f"<:rooEZSip:596577108675788800> **{name}**")
@@ -189,7 +189,7 @@ _██║  ██║██║   ██║   ███████║╚██�
 
 
                     if cogg.qualified_name == "moderation":
-                        cogname = f"**{cogg.qualified_name}**    <a:BearCop:711584228659429458>  \n"
+                        cogname = f"**{cogg.qualified_name}**    <:rooCop:596577110982918146> \n"
 
                     if cogg.qualified_name == "fun":
                         cogname = f"**{cogg.qualified_name}**    <:haha:613185229653409883> \n"
@@ -198,7 +198,7 @@ _██║  ██║██║   ██║   ███████║╚██�
                         cogname = f"**{cogg.qualified_name}**    <:FeelsBeatsMan:597591202614738947>  \n"
 
                     if cogg.qualified_name == "leveling":
-                        cogname = f"**{cogg.qualified_name}**    <a:kat:710821703286259782>  \n"
+                        cogname = f"**{cogg.qualified_name}**    <:vv:597590298964656169>  \n"
 
                     if cogg.qualified_name == "games":
                         cogname = f"**{cogg.qualified_name}**    :video_game: \n"
