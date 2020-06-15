@@ -178,10 +178,6 @@ async def StatusEmbed(ctx, member : discord.Member, bot):
         # embed.set_author(member.display_name)
         #embed.add_field(name="Badges", value=await get_badges(member, bot), inline=False)
 
-        embed.add_field(name="Server Level :small_orange_diamond:", value=f"{get_level(get_member_XP(member))} ", inline=False)
-
-
-        embed.add_field(name="Server Rank", value=f"**{get_rank(member)} **")
 
 
 
