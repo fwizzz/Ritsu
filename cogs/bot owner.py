@@ -41,6 +41,35 @@ class BotOwner(commands.Cog):
             text += f"\n {cog.qualified_name}"
         await ctx.send(text)
 
+    @commands.command(name="reload-cogs",hidden = True)
+    @commands.check(is_owner)
+    async def reloadcogs(self,ctx):
+
+        cogs = ["games","admins","fun","music","other"]
+
+        for cog in cogs:
+            try:
+
+                await msg.send(content = f"<a:loading:718075868345532466> | reloading `{cog}`")
+            except:
+                msg = await ctx.send(f"<a:loading:718075868345532466> | reloading `{cog}`")
+
+            self.bot.reload_extension(f"cogs.{cog}")
+
+            await msg.delete()
+
+
+
+
+    @commands.command(name="unload", hidden=True)
+    @commands.check(is_owner)
+    async def unload(self, ctx, cog):
+
+            msg = await ctx.send(f"<a:loading:718075868345532466> | unloading `{cog}`",delete_after = 10)
+            self.bot.unload_extension(cog)
+            await msg.delete()
+            self.bot.reload_extension(cog)
+
 
 def setup(bot):
     bot.add_cog(BotOwner(bot))
